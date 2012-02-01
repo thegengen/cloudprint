@@ -1,6 +1,6 @@
 = cloudprint
 
-Description goes here.
+This gem provides a ruby-esque interface to Google Cloud Print
 
 == Contributing to cloudprint
  
