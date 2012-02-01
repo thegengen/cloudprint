@@ -9,4 +9,5 @@ end
 group :test do
   gem "test-unit", ">= 0"
   gem "rcov", ">= 0"
+  gem "mocha", ">= 0"
 end

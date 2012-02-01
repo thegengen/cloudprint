@@ -1,4 +1,5 @@
 require "cloudprint/printer"
+require "cloudprint/connection"
 module CloudPrint
   def self.setup(token)
     @token = token
@@ -6,5 +7,9 @@ module CloudPrint
 
   def self.token
     @token
+  end
+
+  def self.connection
+    @connection ||= Connection.new
   end
 end
