@@ -16,10 +16,12 @@ Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "cloudprint"
   gem.homepage = "http://github.com/minciue/cloudprint"
+  #noinspection RubyResolve
   gem.license = "MIT"
   gem.summary = %Q{TODO: one-line summary of your gem}
   gem.description = %Q{TODO: longer description of your gem}
   gem.email = "eugen@lesseverything.com"
+  #noinspection RubyResolve
   gem.authors = ["Eugen Minciu"]
   # dependencies defined in Gemfile
 end
@@ -48,6 +50,8 @@ Rake::RDocTask.new do |rdoc|
 
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title = "cloudprint #{version}"
+  #noinspection RubyResolve
   rdoc.rdoc_files.include('README*')
+  #noinspection RubyResolve
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
