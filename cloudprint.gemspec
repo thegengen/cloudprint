@@ -10,7 +10,8 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Eugen Minciu"]
   s.date = %q{2012-02-14}
-  s.description = %q{TODO: longer description of your gem}
+  s.description = %q{This library provides a ruby-esque interface to Google Cloud Print.
+cloudprint is a work in progress. I'll be adding documentation once all the basic GCP functionality is supported.}
   s.email = %q{eugen@lesseverything.com}
   s.extra_rdoc_files = [
     "LICENSE.txt",
@@ -37,7 +38,7 @@ Gem::Specification.new do |s|
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.4.2}
-  s.summary = %q{TODO: one-line summary of your gem}
+  s.summary = %q{This library provides a ruby-esque interface to Google Cloud Print.}
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
