@@ -18,8 +18,8 @@ Jeweler::Tasks.new do |gem|
   gem.homepage = "http://github.com/minciue/cloudprint"
   #noinspection RubyResolve
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{This library provides a ruby-esque interface to Google Cloud Print.}
+  gem.description = %Q{This library provides a ruby-esque interface to Google Cloud Print.\ncloudprint is a work in progress. I'll be adding documentation once all the basic GCP functionality is supported.}
   gem.email = "eugen@lesseverything.com"
   #noinspection RubyResolve
   gem.authors = ["Eugen Minciu"]
