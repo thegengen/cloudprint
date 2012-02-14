@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
     "README.rdoc",
     "Rakefile",
     "VERSION",
+    "cloudprint.gemspec",
     "lib/cloudprint.rb",
     "lib/cloudprint/connection.rb",
     "lib/cloudprint/printer.rb",
