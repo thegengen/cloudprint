@@ -45,11 +45,11 @@ module CloudPrint
 
       set_request_headers(request)
       request.set_form_data(options[:params]) if method == :post
-
+      request
     end
 
     def set_request_headers(request)
-      request['Authorization'] = "OAuth " + CloudPrint.access_token
+      request['Authorization'] = "OAuth " + CloudPrint.access_token.token
       request['X-CloudPrint-Proxy'] = 'api-prober'
     end
 
@@ -58,6 +58,7 @@ module CloudPrint
 
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      http
     end
 
     def full_url_for(path)

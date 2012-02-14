@@ -15,8 +15,11 @@ class Test::Unit::TestCase
     any_access_token.stubs(:refresh!).returns(mock_access_token)
   end
 
-  def mock_access_token
-    @mock_access_token ||= mock('access_token')
+  def mock_access_token(token = 'token')
+    mock = mock('token')
+    mock.stubs(:token).returns(token)
+    mock.stubs(:expired?).returns(false)
+    mock
   end
 
   def stub_http

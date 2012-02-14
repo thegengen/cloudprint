@@ -34,18 +34,19 @@ module CloudPrint
     @connection ||= Connection.new
   end
 
-  private
 
   def self.access_token
     if access_token_valid?
-      get_existing_access_token
+      get_existing_access_token.token
     else
-      get_new_access_token
+      get_new_access_token.token
     end
   end
 
+  private
+
   def self.access_token_valid?
-    get_existing_access_token != nil && get_existing_access_token.strip != "" && !get_existing_access_token.expired?
+    get_existing_access_token != nil && get_existing_access_token.token && get_existing_access_token.token.strip != "" && !get_existing_access_token.expired?
   end
 
   def self.get_existing_access_token
