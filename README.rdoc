@@ -1,6 +1,7 @@
 = cloudprint
 
-This gem provides a ruby-esque interface to Google Cloud Print
+This library provides a ruby-esque interface to Google Cloud Print.
+cloudprint is a work in progress. I'll be adding documentation once all the basic GCP functionality is supported.
 
 == Contributing to cloudprint
  
