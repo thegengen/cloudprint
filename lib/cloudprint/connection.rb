@@ -19,7 +19,12 @@ module CloudPrint
     private
 
     def parse_response(response)
-      JSON.parse(response.body)
+      begin
+        JSON.parse(response.body)
+      rescue => e
+        puts response.body
+        raise e
+      end
     end
 
     def request(method, path, params)
