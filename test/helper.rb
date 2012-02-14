@@ -28,6 +28,10 @@ class Test::Unit::TestCase
     Net::HTTP.stubs(:new).returns(mock)
   end
 
+  def stub_parsing_responses
+    CloudPrint::Connection.any_instance.stubs(:parse_response)
+  end
+
   def mock_http
     @mock_http ||= mock('http')
     @mock_http.stub_everything

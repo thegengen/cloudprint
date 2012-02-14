@@ -6,19 +6,25 @@ require "uri"
 OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 module CloudPrint
   class Connection
-    def get(path, options = {})
-      request(:get, path, options)
+    def get(path, params = {})
+      response = request(:get, path, params)
+      parse_response(response)
     end
 
-    def post(path, options = {})
-      request(:post, path, options)
+    def post(path, params = {})
+      response = request(:post, path, params)
+      parse_response(response)
     end
 
     private
 
+    def parse_response(response)
+      JSON.parse(response.body)
+    end
+
     def request(method, path, params)
       url = full_url_for(path)
-      make_http_request(:method => method, :url => url, :params => params)
+      response = make_http_request(:method => method, :url => url, :params => params)
     end
 
     def make_http_request(options = {})
@@ -35,22 +41,29 @@ module CloudPrint
       uri = options[:uri]
 
       request = case method
-                  when :get
-                    Net::HTTP::Get.new(uri.request_uri)
                   when :post
-                    Net::HTTP::Post.new(uri.request_uri)
+                    req = Net::HTTP::Post.new(uri.request_uri)
+                    req.set_form_data(options[:params])
+                    req
                   else
-                    Net::HTTP::Get.new(uri.request_uri)
+                    req = Net::HTTP::Get.new(build_get_uri(uri.request_uri, options[:params]))
                 end
 
       set_request_headers(request)
-      request.set_form_data(options[:params]) if method == :post
       request
     end
 
     def set_request_headers(request)
-      request['Authorization'] = "OAuth " + CloudPrint.access_token.token
+      request['Authorization'] = "OAuth " + CloudPrint.access_token
       request['X-CloudPrint-Proxy'] = 'api-prober'
+    end
+
+    def build_get_uri(uri, params = {})
+      unescaped_params = params.map { |key,val| "#{key}=#{val}"}.join("&")
+      escaped_params = URI.escape(unescaped_params)
+
+      escaped_params = "?#{escaped_params}" unless escaped_params.empty?
+      uri + escaped_params
     end
 
     def build_http_connection(uri)
