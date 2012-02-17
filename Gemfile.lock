@@ -20,7 +20,6 @@ GEM
       metaclass (~> 0.0.1)
     multi_json (1.0.4)
     multipart-post (1.1.5)
-    net-http-spy (0.2.1)
     oauth2 (0.5.2)
       faraday (~> 0.7)
       multi_json (~> 1.0)
@@ -40,11 +39,9 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 1.0.0)
-  faraday
   jeweler (~> 1.6.4)
   json
   mocha
-  net-http-spy
   oauth2
   rcov
   ruby-debug

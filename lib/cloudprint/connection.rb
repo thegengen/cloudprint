@@ -1,5 +1,4 @@
 require 'ostruct'
-require 'faraday/utils'
 require "net/https"
 require "uri"
 
