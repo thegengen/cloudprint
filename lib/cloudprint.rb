@@ -1,6 +1,7 @@
 require "rubygems"
 require "bundler/setup"
-Bundler.require(:default)
+require "oauth2"
+require "json"
 
 require "cloudprint/printer"
 require "cloudprint/connection"
