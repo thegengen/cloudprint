@@ -5,6 +5,7 @@ require "json"
 
 require "cloudprint/printer"
 require "cloudprint/connection"
+require "cloudprint/print_job"
 
 
 module CloudPrint

@@ -45,4 +45,13 @@ class Test::Unit::TestCase
   def stub_oauth_client
     CloudPrint.stubs(:oauth_client).returns(mock_oauth_client)
   end
+
+  def fake_connection
+    @connection ||= mock('connection')
+  end
+
+  def stub_connection
+    CloudPrint.stubs(:connection).returns(fake_connection)
+    @connection.stub_everything
+  end
 end
