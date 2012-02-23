@@ -17,4 +17,3 @@ cloudprint is a work in progress. I'll be adding documentation once all the basi
 
 Copyright (c) 2012 Eugen Minciu. See LICENSE.txt for
 further details.
-
