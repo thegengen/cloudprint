@@ -49,3 +49,6 @@ pkg
 
 # For RubyMine
 .idea
+
+# For rvm
+.rvmrc
