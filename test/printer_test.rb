@@ -56,17 +56,41 @@ class PrinterTest < Test::Unit::TestCase
   end
 
   test "print stuff" do
-    title = 'Hello World'
-    content = '<h1>ohai!</h1>'
-    content_type = 'text/html'
-    printer = CloudPrint::Printer.new(:id => 'printer')
-    fake_connection.expects(:post).with('/submit', :printerid => 'printer', :title => title, :content => content, :contentType => content_type)
+    fake_connection.expects(:post).with('/submit', connection_print_params)
     stub_connection
 
-    printer.print(:title => title, :content => content, :content_type => content_type)
+    print_stuff
+  end
+
+  test "print stuff returns a job" do
+    stub_connection
+    job = print_stuff
+    assert job.is_a?(CloudPrint::PrintJob)
+  end
+
+  test "print job has an id and a status" do
+    stub_connection
+    fake_connection.expects(:post).with('/submit', connection_print_params).returns({"success" => true, "id" => "job_id", "status" => 'status'})
+    job = print_stuff
+
+    assert_equal 'job_id', job.id
+    assert_equal 'status', job.status
   end
 
   private
+
+  def print_stuff
+    printer = CloudPrint::Printer.new(:id => 'printer')
+    printer.print(print_params)
+  end
+
+  def print_params
+     { :title => "Hello World", :content => "<h1>ohai!</h1>", :content_type => "text/html" }
+  end
+
+  def connection_print_params
+    { :printerid => 'printer', :title => "Hello World", :content => "<h1>ohai!</h1>", :contentType => "text/html" }
+  end
 
   def one_printer_hash
     {'printers' =>[{'id' => 'my_printer', 'status' => 'online', 'name' => "My Printer"}]}
@@ -79,15 +103,5 @@ class PrinterTest < Test::Unit::TestCase
     ]}
   end
 
-  def fake_connection
-    if @connection.nil?
-      @connection = mock('connection')
-      @connection.stub_everything
-    end
-    @connection
-  end
 
-  def stub_connection
-    CloudPrint.stubs(:connection).returns(fake_connection)
-  end
 end

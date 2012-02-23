@@ -1,5 +1,5 @@
 source "http://rubygems.org"
-gem "oauth2", ">= 0.5.0"
+gem "oauth2", "~> 0.5.0"
 gem "json"
 
 group :development do
