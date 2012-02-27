@@ -65,7 +65,7 @@ class PrinterTest < Test::Unit::TestCase
   end
 
   test "print stuff" do
-    fake_connection.expects(:post).with('/submit', connection_print_params)
+    fake_connection.expects(:post).with('/submit', connection_print_params).returns(empty_job)
     stub_connection
 
     print_stuff
@@ -73,13 +73,14 @@ class PrinterTest < Test::Unit::TestCase
 
   test "print stuff returns a job" do
     stub_connection
+    fake_connection.stubs(:post).with('/submit', connection_print_params).returns(empty_job)
     job = print_stuff
     assert job.is_a?(CloudPrint::PrintJob)
   end
 
   test "print job has an id and a status" do
     stub_connection
-    fake_connection.expects(:post).with('/submit', connection_print_params).returns({"success" => true, "id" => "job_id", "status" => 'status'})
+    fake_connection.expects(:post).with('/submit', connection_print_params).returns({"success" => true, "job" => {"id" => "job_id", "status" => 'status'}})
     job = print_stuff
 
     assert_equal 'job_id', job.id
@@ -87,6 +88,10 @@ class PrinterTest < Test::Unit::TestCase
   end
 
   private
+
+  def empty_job
+    {"job" => {}}
+  end
 
   def print_stuff
     printer = CloudPrint::Printer.new(:id => 'printer')

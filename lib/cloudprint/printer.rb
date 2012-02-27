@@ -10,7 +10,7 @@ module CloudPrint
 
     def print(options)
       response = CloudPrint.connection.post('/submit', :printerid => self.id, :title => options[:title], :content => options[:content], :contentType => options[:content_type]) || {}
-      CloudPrint::PrintJob.new(:id => response["id"], :status => response["status"], :error_code => response['errorCode'])
+      CloudPrint::PrintJob.new(:id => response["job"]["id"], :status => response["job"]["status"], :error_code => response["job"]["errorCode"])
     end
 
     class << self
