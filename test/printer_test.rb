@@ -15,6 +15,14 @@ class PrinterTest < Test::Unit::TestCase
     assert_equal 'My Printer', printer.name
   end
 
+  test "a printer has tags" do
+    printer = CloudPrint::Printer.new(:id => 'printer_id', :status => 'online', :name => "My Printer")
+    assert_equal printer.tags, {}
+
+    printer = CloudPrint::Printer.new(:id => 'printer_id', :status => 'online', :name => "My Printer", :tags => {"email" => 'a@b.com'})
+    assert_equal printer.tags, {"email" => "a@b.com"}
+  end
+
   test "finding a printer by its id should get a connection" do
     fake_connection.stubs(:get).returns(one_printer_hash)
 
@@ -41,6 +49,7 @@ class PrinterTest < Test::Unit::TestCase
     assert_equal 'my_printer', printer.id
     assert_equal 'online', printer.status
     assert_equal 'My Printer', printer.name
+    assert_equal printer.tags, {'email' => 'a@b.com' }
   end
 
   test "finding all printer should initialize an array of printers" do
@@ -93,7 +102,7 @@ class PrinterTest < Test::Unit::TestCase
   end
 
   def one_printer_hash
-    {'printers' =>[{'id' => 'my_printer', 'status' => 'online', 'name' => "My Printer"}]}
+    {'printers' =>[{'id' => 'my_printer', 'status' => 'online', 'name' => "My Printer", 'tags' => { 'email' => 'a@b.com'}}]}
   end
 
   def multiple_printer_hash
