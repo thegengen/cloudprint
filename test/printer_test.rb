@@ -1,7 +1,8 @@
 require "helper"
 class PrinterTest < Test::Unit::TestCase
   def setup
-    CloudPrint.setup('refresh_token')
+    # TODO: Is it necessary to pass a fake token to #setup?
+    CloudPrint.setup(:refresh_token => 'refresh_token')
   end
 
   test "CloudPrint Printers exist" do

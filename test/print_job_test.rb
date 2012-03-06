@@ -2,7 +2,8 @@ require 'helper'
 
 class PrintJobTest < Test::Unit::TestCase
   def setup
-    CloudPrint.setup('refresh_token')
+    # TODO: Is it necessary to pass a fake token to #setup?
+    CloudPrint.setup(:refresh_token => 'refresh_token')
     stub_connection
   end
 
