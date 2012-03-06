@@ -1,5 +1,5 @@
 require "cloudprint"
-Bundler.require(:test)
+require 'mocha'
 
 class Test::Unit::TestCase
   def any_connection

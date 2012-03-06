@@ -3,6 +3,7 @@ require "bundler/setup"
 require "oauth2"
 require "json"
 
+require "cloudprint/version"
 require "cloudprint/printer"
 require "cloudprint/connection"
 require "cloudprint/print_job"
