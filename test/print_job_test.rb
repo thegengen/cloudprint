@@ -8,7 +8,7 @@ class PrintJobTest < Test::Unit::TestCase
   end
 
   test "find a job" do
-    fake_connection.stubs(:get).with('/jobs').returns(job_response)
+    fake_connection.stubs(:get).with('/jobs').returns(jobs_response)
     assert CloudPrint::PrintJob.find('job_id').is_a?(CloudPrint::PrintJob)
   end
 
@@ -19,7 +19,7 @@ class PrintJobTest < Test::Unit::TestCase
   end
 
   test 'find a job gets the job details' do
-    fake_connection.stubs(:get).with('/jobs').returns(job_response)
+    fake_connection.stubs(:get).with('/jobs').returns(jobs_response)
     job = CloudPrint::PrintJob.find('job_id')
 
     assert_equal 'job_id', job.id
@@ -79,7 +79,7 @@ class PrintJobTest < Test::Unit::TestCase
 
   private
 
-  def job_response
+  def jobs_response
     {
       "jobs" => [
         {"id" => "other_job", "status" => "status", "errorCode" => "Error"},
