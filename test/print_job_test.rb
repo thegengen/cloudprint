@@ -8,19 +8,18 @@ class PrintJobTest < Test::Unit::TestCase
   end
 
   test "find a job" do
-    fake_connection.stubs(:post).with('/jobs', :jobid => 'job_id').returns(job_response)
+    fake_connection.stubs(:get).with('/jobs').returns(job_response)
     assert CloudPrint::PrintJob.find('job_id').is_a?(CloudPrint::PrintJob)
   end
 
-  # Google doesn't list jobid as a possible value in its public docs, but it seems to work just fine
   test 'find a job performs a remote request' do
-    fake_connection.expects(:post).with('/jobs', :jobid => 'job_id').returns({})
+    fake_connection.expects(:get).with('/jobs').returns({})
 
     CloudPrint::PrintJob.find('job_id')
   end
 
   test 'find a job gets the job details' do
-    fake_connection.stubs(:post).with('/jobs', :jobid => 'job_id').returns(job_response)
+    fake_connection.stubs(:get).with('/jobs').returns(job_response)
     job = CloudPrint::PrintJob.find('job_id')
 
     assert_equal 'job_id', job.id
@@ -70,6 +69,11 @@ class PrintJobTest < Test::Unit::TestCase
   private
 
   def job_response
-    {"jobs" => [{"id" => "job_id", "status" => "status", "errorCode" => "Error"}]}
+    {
+      "jobs" => [
+        {"id" => "other_job", "status" => "status", "errorCode" => "Error"},
+        {"id" => "job_id", "status" => "status", "errorCode" => "Error"}
+      ]
+    }
   end
 end

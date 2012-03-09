@@ -8,9 +8,9 @@ module CloudPrint
     end
 
     def self.find(jobid)
-      response = CloudPrint.connection.post('/jobs', :jobid => jobid) || {}
+      response = CloudPrint.connection.get('/jobs') || {}
       return nil unless response['jobs'].is_a?(Array)
-      job = response['jobs'].first
+      job = response['jobs'].select{ |job| job['id'] == jobid }.first
       return nil if job.nil?
       self.new(:id => job['id'], :status => job['status'], :error_code => job['errorCode'])
     end
