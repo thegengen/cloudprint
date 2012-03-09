@@ -21,6 +21,12 @@ class ConnectionTest < Test::Unit::TestCase
     @connection.post('/foo')
   end
 
+  test "you can post multipart data using a connection" do
+    stub
+    any_connection.stubs(:request)
+    @connection.multipart_post('/foo')
+  end
+
   test "connections make requests to the right url with POST" do
     stub
     @connection.expects(:make_http_request).with(:method => :post, :url => "https://www.google.com/cloudprint/submit", :params => {})
@@ -82,6 +88,14 @@ class ConnectionTest < Test::Unit::TestCase
 
     JSON.expects(:parse)
     @connection.get('/submit')
+  end
+
+  test "connections setup form properly on multipart POSTs" do
+    stub
+
+    file = mock('File')
+    Net::HTTP::Post.any_instance.expects(:set_form).with({'contentType' => 'application/pdf', 'content' => file}, 'multipart/form-data')
+    @connection.multipart_post('/submit', { :contentType => 'application/pdf', :content => file })
   end
 
   private

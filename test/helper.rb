@@ -54,4 +54,8 @@ class Test::Unit::TestCase
     CloudPrint.stubs(:connection).returns(fake_connection)
     @connection.stub_everything
   end
+
+  def fixture_file(filename)
+    File.join(File.dirname(__FILE__), 'fixtures', filename)
+  end
 end
