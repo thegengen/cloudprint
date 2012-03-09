@@ -66,6 +66,17 @@ class PrintJobTest < Test::Unit::TestCase
 
     assert job.error?
   end
+
+  test "refreshing a job" do
+    job = CloudPrint::PrintJob.new(:status => "IN_PROGRESS")
+    CloudPrint::PrintJob.stubs(:find_by_id).returns({"id" => "job_id", "status" => "DONE", "errorCode" => "42"})
+
+    assert_equal job, job.refresh!
+
+    assert job.done?
+    assert_equal "42", job.error_code
+  end
+
   private
 
   def job_response
