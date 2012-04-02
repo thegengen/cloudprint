@@ -46,6 +46,11 @@ module CloudPrint
     end
   end
 
+  def self.refresh_token=(new_token)
+    @refresh_token = new_token
+    get_new_access_token
+  end
+
   private
 
   def self.access_token_valid?
