@@ -1,0 +1,36 @@
+PATH
+  remote: .
+  specs:
+    cloudprint (0.0.2)
+      json
+      oauth2 (~> 0.5.2)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    addressable (2.2.7)
+    faraday (0.7.6)
+      addressable (~> 2.2)
+      multipart-post (~> 1.1)
+      rack (~> 1.1)
+    json (1.6.6)
+    metaclass (0.0.1)
+    mocha (0.10.5)
+      metaclass (~> 0.0.1)
+    multi_json (1.2.0)
+    multipart-post (1.1.5)
+    oauth2 (0.5.2)
+      faraday (~> 0.7)
+      multi_json (~> 1.0)
+    rack (1.4.1)
+    rake (0.9.2.2)
+    test-unit (2.4.8)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  cloudprint!
+  mocha
+  rake
+  test-unit
