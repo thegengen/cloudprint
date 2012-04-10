@@ -8,11 +8,16 @@ module CloudPrint
     end
 
     def self.find(jobid)
-      response = CloudPrint.connection.post('/jobs', :jobid => jobid) || {}
-      return nil unless response['jobs'].is_a?(Array)
-      job = response['jobs'].first
+      job = find_by_id(jobid)
       return nil if job.nil?
       self.new(:id => job['id'], :status => job['status'], :error_code => job['errorCode'])
+    end
+
+    def refresh!
+      job = self.class.find_by_id(id)
+      @status = job['status']
+      @error_code = job['errorCode']
+      self
     end
 
     def queued?
@@ -29,6 +34,14 @@ module CloudPrint
 
     def error?
       status == "ERROR"
+    end
+
+  private
+
+    def self.find_by_id(id)
+      response = CloudPrint.connection.get('/jobs') || {}
+      return nil unless response['jobs'].is_a?(Array)
+      response['jobs'].select{ |job| job['id'] == id }.first
     end
   end
 end

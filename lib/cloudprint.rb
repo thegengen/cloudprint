@@ -3,6 +3,7 @@ require "bundler/setup"
 require "oauth2"
 require "json"
 
+require "cloudprint/version"
 require "cloudprint/printer"
 require "cloudprint/connection"
 require "cloudprint/print_job"
@@ -43,6 +44,11 @@ module CloudPrint
     else
       get_new_access_token.token
     end
+  end
+
+  def self.refresh_token=(new_token)
+    @refresh_token = new_token
+    get_new_access_token
   end
 
   private

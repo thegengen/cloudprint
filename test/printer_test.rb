@@ -1,7 +1,8 @@
 require "helper"
 class PrinterTest < Test::Unit::TestCase
   def setup
-    CloudPrint.setup('refresh_token')
+    # TODO: Is it necessary to pass a fake token to #setup?
+    CloudPrint.setup(:refresh_token => 'refresh_token')
   end
 
   test "CloudPrint Printers exist" do
@@ -78,6 +79,13 @@ class PrinterTest < Test::Unit::TestCase
     assert job.is_a?(CloudPrint::PrintJob)
   end
 
+  test "print file" do
+    fake_connection.expects(:multipart_post).with('/submit', connection_print_file_params).returns(empty_job)
+    stub_connection
+
+    print_file
+  end
+
   test "print job has an id and a status" do
     stub_connection
     fake_connection.expects(:post).with('/submit', connection_print_params).returns({"success" => true, "job" => {"id" => "job_id", "status" => 'status'}})
@@ -106,6 +114,19 @@ class PrinterTest < Test::Unit::TestCase
     { :printerid => 'printer', :title => "Hello World", :content => "<h1>ohai!</h1>", :contentType => "text/html" }
   end
 
+  def print_file
+    printer = CloudPrint::Printer.new(:id => 'printer')
+    printer.print(print_file_params)
+  end
+
+  def print_file_params
+    { :title => "Ruby!", :content => ruby_png_fixture, :content_type => "image/png" }
+  end
+
+  def connection_print_file_params
+    { :printerid => 'printer', :title => "Ruby!", :content => ruby_png_fixture, :contentType => "image/png" }
+  end
+
   def one_printer_hash
     {'printers' =>[{'id' => 'my_printer', 'status' => 'online', 'name' => "My Printer", 'tags' => { 'email' => 'a@b.com'}}]}
   end
@@ -117,5 +138,8 @@ class PrinterTest < Test::Unit::TestCase
     ]}
   end
 
+  def ruby_png_fixture
+    @ruby_png_fixture ||= File.open(fixture_file('ruby.png'))
+  end
 
 end

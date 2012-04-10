@@ -15,6 +15,11 @@ module CloudPrint
       parse_response(response)
     end
 
+    def multipart_post(path, params = {})
+      response = request(:multipart, path, params)
+      parse_response(response)
+    end
+
     private
 
     def parse_response(response)
@@ -45,6 +50,11 @@ module CloudPrint
       uri = options[:uri]
 
       request = case method
+                  when :multipart
+                    req = Net::HTTP::Post.new(uri.request_uri)
+                    # Convert hash keys to strings, because that's what Net::HTTPGenericRequest#encode_multipart_form_data assumes they are
+                    req.set_form(options[:params].inject({}) {|memo, (k,v)| memo[k.to_s] = v; memo }, 'multipart/form-data')
+                    req
                   when :post
                     req = Net::HTTP::Post.new(uri.request_uri)
                     req.set_form_data(options[:params])
