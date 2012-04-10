@@ -7,18 +7,18 @@ class PrintJobTest < Test::Unit::TestCase
     stub_connection
   end
 
-  test "find a job" do
+  should "find a job" do
     fake_connection.stubs(:get).with('/jobs').returns(jobs_response)
     assert CloudPrint::PrintJob.find('job_id').is_a?(CloudPrint::PrintJob)
   end
 
-  test 'find a job performs a remote request' do
+  should 'perform a remote request when finding a job' do
     fake_connection.expects(:get).with('/jobs').returns({})
 
     CloudPrint::PrintJob.find('job_id')
   end
 
-  test 'find a job gets the job details' do
+  should 'gets the job details' do
     fake_connection.stubs(:get).with('/jobs').returns(jobs_response)
     job = CloudPrint::PrintJob.find('job_id')
 
@@ -27,7 +27,7 @@ class PrintJobTest < Test::Unit::TestCase
     assert_equal 'Error', job.error_code
   end
 
-  test 'a job is queued' do
+  should 'recognize a job as queued' do
     job = CloudPrint::PrintJob.new(:status => "QUEUED")
 
     assert !job.done?
@@ -37,7 +37,7 @@ class PrintJobTest < Test::Unit::TestCase
     assert job.queued?
   end
 
-  test 'a job is in progress' do
+  should 'recognize a job as in progress' do
     job = CloudPrint::PrintJob.new(:status => "IN_PROGRESS")
 
     assert !job.done?
@@ -47,7 +47,7 @@ class PrintJobTest < Test::Unit::TestCase
     assert job.in_progress?
   end
 
-  test 'a job is done' do
+  should 'recognize a job as done' do
     job = CloudPrint::PrintJob.new(:status => "DONE")
 
     assert !job.in_progress?
@@ -57,7 +57,7 @@ class PrintJobTest < Test::Unit::TestCase
     assert job.done?
   end
 
-  test "a job has an error" do
+  should "recognize a job has an error" do
     job = CloudPrint::PrintJob.new(:status => "ERROR")
 
     assert !job.done?
@@ -67,7 +67,7 @@ class PrintJobTest < Test::Unit::TestCase
     assert job.error?
   end
 
-  test "refreshing a job" do
+  should "refresh a job" do
     job = CloudPrint::PrintJob.new(:status => "IN_PROGRESS")
     CloudPrint::PrintJob.stubs(:find_by_id).returns({"id" => "job_id", "status" => "DONE", "errorCode" => "42"})
 

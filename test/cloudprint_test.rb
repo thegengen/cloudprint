@@ -1,20 +1,19 @@
-require "test/unit"
-require "cloudprint"
+require 'helper'
 
 class CloudPrintTest < Test::Unit::TestCase
   def setup
     stub_access_token
   end
 
-  test "CloudPrint exists" do
+  should "have CloudPrint" do
     assert_nothing_raised { CloudPrint }
   end
 
-  test "CloudPrint can be set up" do
+  should "be able to set up CloudPrint" do
     assert CloudPrint.respond_to?(:setup)
   end
 
-  test "CloudPrint setup stores a client id, client secret, callback URL and refresh token" do
+  should "stores a client id, client secret, callback URL and refresh token" do
     CloudPrint.setup(:refresh_token => 'refresh_token', :client_id => 'client_id', :client_secret => 'client_secret', :callback_url => 'callback_url')
     assert_equal 'client_id', CloudPrint.client_id
     assert_equal 'client_secret', CloudPrint.client_secret
@@ -22,13 +21,13 @@ class CloudPrintTest < Test::Unit::TestCase
     assert_equal 'callback_url', CloudPrint.callback_url
   end
 
-  test "connections will check if the access token is still valid" do
+  should "check if the access token is still valid" do
     CloudPrint.expects(:access_token_valid?).returns(true)
     CloudPrint.stubs(:get_existing_access_token).returns(mock_access_token)
     CloudPrint.access_token
   end
 
-  test "connections getting the existing access token use it if it's still valid" do
+  should "get the existing access token use it if it's still valid" do
     token = mock_access_token
     token.expects(:token)
 
@@ -38,44 +37,44 @@ class CloudPrintTest < Test::Unit::TestCase
     CloudPrint.access_token
   end
 
-  test "connections getting the existing access token get a new one if it's no longer valid" do
+  should "get the existing access token get a new one if it's no longer valid" do
     CloudPrint.stubs(:access_token_valid?).returns(false)
     CloudPrint.expects(:get_new_access_token).returns(mock_access_token)
     CloudPrint.access_token
   end
 
-  test "access token may not be nil" do
+  should "not set a nil access token" do
     CloudPrint.expects(:get_existing_access_token).returns(nil)
     CloudPrint.expects(:get_new_access_token).returns(mock_access_token)
     CloudPrint.access_token
   end
 
-  test "access token may not have a nil token" do
+  should "not have a nil access token" do
     CloudPrint.expects(:get_existing_access_token).at_least_once.returns(mock_access_token(nil))
     CloudPrint.expects(:get_new_access_token).returns(mock_access_token)
     CloudPrint.access_token
   end
 
-  test "access token may not be a blank string" do
+  should "not allow a blank string for an access token" do
     CloudPrint.expects(:get_existing_access_token).at_least_once.returns(mock_access_token(' '))
     CloudPrint.expects(:get_new_access_token).returns(mock_access_token)
     CloudPrint.access_token
   end
 
-  test "access token can be a string" do
+  should "have a string as an access token" do
     CloudPrint.stubs(:access_token_valid?).returns(true)
     CloudPrint.expects(:get_new_access_token).never
     CloudPrint.expects(:get_existing_access_token).at_least_once.returns(mock_access_token)
     assert_equal("token", CloudPrint.access_token)
   end
 
-  test "getting a new access token initializes an OAuth2 client" do
+  should "initialize an OAuth2 client when getting a new access token" do
     CloudPrint.stubs(:access_token_valid?).returns(false)
     CloudPrint.expects(:oauth_client)
     CloudPrint.access_token
   end
 
-  test "setting up an oauth client" do
+  should "set up an oauth client" do
     CloudPrint.setup(:client_id => 'client_id', :client_secret => 'client_secret', :callback_url => "http://test.com/callback")
     CloudPrint.stubs(:access_token_valid?).returns(false)
     OAuth2::Client.expects(:new).with('client_id', 'client_secret',
@@ -87,7 +86,7 @@ class CloudPrintTest < Test::Unit::TestCase
     CloudPrint.access_token
   end
 
-  test "getting a new access token should initialize an access token" do
+  should "initialize an access token when getting a new access token" do
     CloudPrint.setup(:refresh_token => "refresh_token")
     CloudPrint.stubs(:access_token_valid?).returns(false)
 
@@ -95,7 +94,7 @@ class CloudPrintTest < Test::Unit::TestCase
     CloudPrint.access_token
   end
 
-  test "getting an auth token from oauth2" do
+  should "get an auth token from oauth2" do
     token = mock_access_token
     CloudPrint.setup(:refresh_token => "refresh_token")
     CloudPrint.stubs(:access_token_valid?).returns(false)
@@ -106,7 +105,7 @@ class CloudPrintTest < Test::Unit::TestCase
     CloudPrint.access_token
   end
 
-  test "the access token is invalid if it has expired" do
+  should "expire if the access token is invalid" do
     token = mock_access_token
     token.stubs(:expired?).returns(true)
     CloudPrint.stubs(:get_existing_access_token).returns()
@@ -116,7 +115,7 @@ class CloudPrintTest < Test::Unit::TestCase
     CloudPrint.access_token
   end
 
-  test "setting a new refresh token should get a new access token" do
+  should "get a new access token when setting a new refresh token" do
     CloudPrint.expects(:get_new_access_token)
     CloudPrint.refresh_token = 'new_token'
   end

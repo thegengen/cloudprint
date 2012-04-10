@@ -5,35 +5,31 @@ class ConnectionTest < Test::Unit::TestCase
     @connection = CloudPrint::Connection.new
   end
 
-  test "Connection class exists" do
-    assert_nothing_raised { CloudPrint::Connection }
-  end
-
-  test "you can get using a connection" do
+  should "get using a connection" do
     stub
     any_connection.stubs(:request)
     @connection.get('/foo')
   end
 
-  test "you can post using a connection" do
+  should "post using a connection" do
     stub
     any_connection.stubs(:request)
     @connection.post('/foo')
   end
 
-  test "you can post multipart data using a connection" do
+  should "post multipart data using a connection" do
     stub
     any_connection.stubs(:request)
     @connection.multipart_post('/foo')
   end
 
-  test "connections make requests to the right url with POST" do
+  should "make requests to the right url with POST" do
     stub
     @connection.expects(:make_http_request).with(:method => :post, :url => "https://www.google.com/cloudprint/submit", :params => {})
     @connection.post('/submit')
   end
 
-  test "connections build http connections and requests" do
+  should "build http connections and requests" do
     stub
     @connection.stubs(:build_request)
 
@@ -41,7 +37,7 @@ class ConnectionTest < Test::Unit::TestCase
     @connection.post('/submit')
   end
 
-  test "connections build http request with proper values" do
+  should "build http request with proper values" do
     stub
     @connection.stubs(:build_http_connection).returns(mock_http)
 
@@ -49,7 +45,7 @@ class ConnectionTest < Test::Unit::TestCase
     @connection.post('/submit', {:text => "ohai!"})
   end
 
-  test "connections build a URL when parameters are used" do
+  should "build a URL when parameters are used" do
     stub
     @connection.stubs(:build_http_connection).returns(mock_http)
 
@@ -58,7 +54,7 @@ class ConnectionTest < Test::Unit::TestCase
     @connection.get('/submit', params)
   end
 
-  test "gets from the correct URL when params are used" do
+  should "get from the correct URL when params are used" do
     stub
 
     params = { :text => 'ohai world' }
@@ -66,7 +62,7 @@ class ConnectionTest < Test::Unit::TestCase
     @connection.get('/submit', params)
   end
 
-  test "connections use the access token" do
+  should "use the access token" do
     stub
     @connection.stubs(:build_http_connection).returns(mock_http)
 
@@ -74,13 +70,13 @@ class ConnectionTest < Test::Unit::TestCase
     @connection.get('/submit')
   end
 
-  test "connections parse the response" do
+  should "parse the response" do
     stub
     @connection.expects(:parse_response)
     @connection.get('/submit')
   end
 
-  test "connect parse the response as JSON" do
+  should "parse the response as JSON" do
     stub(:parsing_responses => false)
     response = mock('response')
     response.stubs(:body).returns('')
@@ -90,7 +86,7 @@ class ConnectionTest < Test::Unit::TestCase
     @connection.get('/submit')
   end
 
-  test "connections setup form properly on multipart POSTs" do
+  should "setup form properly on multipart POSTs" do
     stub
 
     file = mock('File')

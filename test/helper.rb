@@ -1,4 +1,6 @@
-require "cloudprint"
+require 'cloudprint'
+require 'test/unit'
+require 'shoulda/context'
 require 'mocha'
 
 class Test::Unit::TestCase

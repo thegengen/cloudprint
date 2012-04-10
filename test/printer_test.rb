@@ -5,18 +5,14 @@ class PrinterTest < Test::Unit::TestCase
     CloudPrint.setup(:refresh_token => 'refresh_token')
   end
 
-  test "CloudPrint Printers exist" do
-    assert_nothing_raised { CloudPrint::Printer }
-  end
-
-  test "initializing a printer" do
+  should "initialize a printer" do
     printer = CloudPrint::Printer.new(:id => 'printer_id', :status => 'online', :name => "My Printer")
     assert_equal 'printer_id', printer.id
     assert_equal 'online', printer.status
     assert_equal 'My Printer', printer.name
   end
 
-  test "a printer has tags" do
+  should "have tags" do
     printer = CloudPrint::Printer.new(:id => 'printer_id', :status => 'online', :name => "My Printer")
     assert_equal printer.tags, {}
 
@@ -24,26 +20,26 @@ class PrinterTest < Test::Unit::TestCase
     assert_equal printer.tags, {"email" => "a@b.com"}
   end
 
-  test "finding a printer by its id should get a connection" do
+  should "get a connection when finding a printer by its id" do
     fake_connection.stubs(:get).returns(one_printer_hash)
 
     CloudPrint.expects(:connection).returns(fake_connection)
     CloudPrint::Printer.find('printer')
   end
 
-  test "finding a printer by its id should call a remote request" do
+  should "call a remote request when finding a printer by its id" do
     fake_connection.expects(:get).returns(one_printer_hash)
     stub_connection
     CloudPrint::Printer.find('printer')
   end
 
-  test "finding a printer should call a remote request with the proper params" do
+  should "call a remote request with the proper params when finding a printer" do
     fake_connection.expects(:get).with('/printer', :printerid => 'printer').returns(one_printer_hash)
     stub_connection
     CloudPrint::Printer.find('printer')
   end
 
-  test "finding a printer should initialize a new object" do
+  should "initialize a new object when finding a printer" do
     fake_connection.stubs(:get).returns(one_printer_hash)
     stub_connection
     printer = CloudPrint::Printer.find('my_printer')
@@ -53,7 +49,7 @@ class PrinterTest < Test::Unit::TestCase
     assert_equal printer.tags, {'email' => 'a@b.com' }
   end
 
-  test "finding all printer should initialize an array of printers" do
+  should "initialize an array of printers when finding all printers" do
     fake_connection.stubs(:get).returns(multiple_printer_hash)
     stub_connection
     printers = CloudPrint::Printer.all
@@ -65,28 +61,28 @@ class PrinterTest < Test::Unit::TestCase
     assert_equal 'Second Printer', second_printer.name
   end
 
-  test "print stuff" do
+  should "print stuff" do
     fake_connection.expects(:post).with('/submit', connection_print_params).returns(empty_job)
     stub_connection
 
     print_stuff
   end
 
-  test "print stuff returns a job" do
+  should "return a job" do
     stub_connection
     fake_connection.stubs(:post).with('/submit', connection_print_params).returns(empty_job)
     job = print_stuff
     assert job.is_a?(CloudPrint::PrintJob)
   end
 
-  test "print file" do
+  should "print file" do
     fake_connection.expects(:multipart_post).with('/submit', connection_print_file_params).returns(empty_job)
     stub_connection
 
     print_file
   end
 
-  test "print job has an id and a status" do
+  should "print jobs returning an id and a status" do
     stub_connection
     fake_connection.expects(:post).with('/submit', connection_print_params).returns({"success" => true, "job" => {"id" => "job_id", "status" => 'status'}})
     job = print_stuff
