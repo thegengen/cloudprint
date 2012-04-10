@@ -1,5 +1,5 @@
 require "cloudprint"
-Bundler.require(:test)
+require 'mocha'
 
 class Test::Unit::TestCase
   def any_connection
@@ -53,5 +53,9 @@ class Test::Unit::TestCase
   def stub_connection
     CloudPrint.stubs(:connection).returns(fake_connection)
     @connection.stub_everything
+  end
+
+  def fixture_file(filename)
+    File.join(File.dirname(__FILE__), 'fixtures', filename)
   end
 end

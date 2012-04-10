@@ -115,4 +115,9 @@ class CloudPrintTest < Test::Unit::TestCase
     CloudPrint.expects(:get_new_access_token).returns(token)
     CloudPrint.access_token
   end
+
+  test "setting a new refresh token should get a new access token" do
+    CloudPrint.expects(:get_new_access_token)
+    CloudPrint.refresh_token = 'new_token'
+  end
 end
