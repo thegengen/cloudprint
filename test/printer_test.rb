@@ -75,6 +75,15 @@ class PrinterTest < Test::Unit::TestCase
     assert job.is_a?(CloudPrint::PrintJob)
   end
 
+  should "return nil when the response doesn't have job in it" do
+    stub_connection
+    fake_connection.stubs(:post).with('/submit', connection_print_params).returns({})
+    job = print_stuff
+
+    assert_nil job
+  end
+
+
   should "print file" do
     fake_connection.expects(:multipart_post).with('/submit', connection_print_file_params).returns(empty_job)
     stub_connection
