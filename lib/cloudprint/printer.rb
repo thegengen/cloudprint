@@ -1,10 +1,11 @@
 module CloudPrint
   class Printer
-    attr_reader :id, :status, :name, :tags
+    attr_reader :id, :status, :name, :tags, :display_name
     def initialize(options = {})
       @id = options[:id]
       @status = options[:status]
       @name = options[:name]
+      @display_name = options[:display_name]
       @tags = options[:tags] || {}
     end
 
@@ -30,7 +31,7 @@ module CloudPrint
       private
 
       def new_from_hash(hash)
-        Printer.new(:id => hash['id'], :status => hash['status'], :name => hash['name'], :tags => hash['tags'])
+        Printer.new(:id => hash['id'], :status => hash['status'], :name => hash['name'], :display_name => hash['displayName'], :tags => hash['tags'])
       end
     end
   end

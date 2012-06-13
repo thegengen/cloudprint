@@ -59,6 +59,9 @@ class PrinterTest < Test::Unit::TestCase
     assert_equal 'second_printer', second_printer.id
     assert_equal 'First Printer', first_printer.name
     assert_equal 'Second Printer', second_printer.name
+    assert_equal 'First Printer (display name)', first_printer.display_name
+    assert_equal 'Second Printer (display name)', second_printer.display_name
+
   end
 
   should "print stuff" do
@@ -133,13 +136,13 @@ class PrinterTest < Test::Unit::TestCase
   end
 
   def one_printer_hash
-    {'printers' =>[{'id' => 'my_printer', 'status' => 'online', 'name' => "My Printer", 'tags' => { 'email' => 'a@b.com'}}]}
+    {'printers' =>[{'id' => 'my_printer', 'status' => 'online', 'name' => "My Printer", 'displayName' => 'My Printer (display name)', 'tags' => { 'email' => 'a@b.com'}}]}
   end
 
   def multiple_printer_hash
     {'printers' =>[
-        {'id' => 'first_printer',  'status' => 'online', 'name' => "First Printer"},
-        {'id' => 'second_printer', 'status' => 'online', 'name' => "Second Printer"}
+        {'id' => 'first_printer',  'status' => 'online', 'name' => "First Printer", 'displayName' => 'First Printer (display name)'},
+        {'id' => 'second_printer', 'status' => 'online', 'name' => "Second Printer", 'displayName' => 'Second Printer (display name)'}
     ]}
   end
 
