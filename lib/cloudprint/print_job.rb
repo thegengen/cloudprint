@@ -36,6 +36,10 @@ module CloudPrint
       status == "ERROR"
     end
 
+    def submitted?
+      status == "SUBMITTED"
+    end
+
   private
 
     def self.find_by_id(id)

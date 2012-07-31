@@ -33,6 +33,7 @@ class PrintJobTest < Test::Unit::TestCase
     assert !job.done?
     assert !job.in_progress?
     assert !job.error?
+    assert !job.submitted?
 
     assert job.queued?
   end
@@ -43,6 +44,7 @@ class PrintJobTest < Test::Unit::TestCase
     assert !job.done?
     assert !job.queued?
     assert !job.error?
+    assert !job.submitted?
 
     assert job.in_progress?
   end
@@ -53,6 +55,7 @@ class PrintJobTest < Test::Unit::TestCase
     assert !job.in_progress?
     assert !job.queued?
     assert !job.error?
+    assert !job.submitted?
 
     assert job.done?
   end
@@ -63,8 +66,20 @@ class PrintJobTest < Test::Unit::TestCase
     assert !job.done?
     assert !job.in_progress?
     assert !job.queued?
+    assert !job.submitted?
 
     assert job.error?
+  end
+
+  should "recognize a job as submitted" do
+    job = CloudPrint::PrintJob.new(:status => "SUBMITTED")
+
+    assert !job.done?
+    assert !job.in_progress?
+    assert !job.queued?
+    assert !job.error?
+
+    assert job.submitted?
   end
 
   should "refresh a job" do
