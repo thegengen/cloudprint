@@ -13,6 +13,10 @@ module CloudPrint
       self.new(:id => job['id'], :status => job['status'], :error_code => job['errorCode'])
     end
 
+    def self.all
+      fetch_jobs.map { |j| new :id => j['id'], :status => j['status'], :error_code => j['error_code'] }
+    end
+
     def refresh!
       job = self.class.find_by_id(id)
       @status = job['status']
@@ -43,9 +47,12 @@ module CloudPrint
   private
 
     def self.find_by_id(id)
+      fetch_jobs.select{ |job| job['id'] == id }.first
+    end
+
+    def self.fetch_jobs
       response = CloudPrint.connection.get('/jobs') || {}
-      return nil unless response['jobs'].is_a?(Array)
-      response['jobs'].select{ |job| job['id'] == id }.first
+      response['jobs'] || []
     end
   end
 end

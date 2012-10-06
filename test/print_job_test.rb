@@ -92,6 +92,14 @@ class PrintJobTest < Test::Unit::TestCase
     assert_equal "42", job.error_code
   end
 
+  should "return all jobs" do
+    fake_connection.stubs(:get).with('/jobs').returns(jobs_response)
+    jobs = CloudPrint::PrintJob.all
+
+    assert jobs[0].id == 'other_job'
+    assert jobs[1].id == 'job_id'
+  end
+
   private
 
   def jobs_response
