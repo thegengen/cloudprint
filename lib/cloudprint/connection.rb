@@ -2,7 +2,6 @@ require 'ostruct'
 require "net/https"
 require "uri"
 
-OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 module CloudPrint
   class Connection
     def get(path, params = {})
