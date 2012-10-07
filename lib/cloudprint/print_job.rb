@@ -10,11 +10,11 @@ module CloudPrint
     def self.find(jobid)
       job = find_by_id(jobid)
       return nil if job.nil?
-      self.new(:id => job['id'], :status => job['status'], :error_code => job['errorCode'])
+      new_from_response job
     end
 
     def self.all
-      fetch_jobs.map { |j| new :id => j['id'], :status => j['status'], :error_code => j['error_code'] }
+      fetch_jobs.map { |j| new_from_response j }
     end
 
     def refresh!
@@ -53,6 +53,12 @@ module CloudPrint
     def self.fetch_jobs
       response = CloudPrint.connection.get('/jobs') || {}
       response['jobs'] || []
+    end
+
+    def self.new_from_response(response_hash)
+      new :id => response_hash['id'],
+          :status => response_hash['status'],
+          :error_code => response_hash['errorCode']
     end
   end
 end
