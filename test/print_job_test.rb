@@ -25,6 +25,15 @@ class PrintJobTest < Test::Unit::TestCase
     assert_equal 'job_id', job.id
     assert_equal 'status', job.status
     assert_equal 'Error', job.error_code
+    assert_equal 'printer_id', job.printer_id
+    assert_equal 'Job Title', job.title
+    assert_equal 'image/jpeg', job.content_type
+    assert_equal 'https://www.google.com/cloudprint/download?id=job_id', job.file_url
+    assert_equal 'https://www.google.com/cloudprint/ticket?jobid=job_id', job.ticket_url
+    assert_equal Time.at(1349722237.676), job.create_time
+    assert_equal Time.at(1349722237.676), job.update_time
+    assert_equal 'A message.', job.message
+    assert_equal ["^own"], job.tags
   end
 
   should 'recognize a job as queued' do
@@ -83,7 +92,7 @@ class PrintJobTest < Test::Unit::TestCase
   end
 
   should "refresh a job" do
-    job = CloudPrint::PrintJob.new(:status => "IN_PROGRESS")
+    job = CloudPrint::PrintJob.new(:id => "job_id", :status => "IN_PROGRESS")
     CloudPrint::PrintJob.stubs(:find_by_id).returns({"id" => "job_id", "status" => "DONE", "errorCode" => "42"})
 
     assert_equal job, job.refresh!
@@ -105,8 +114,21 @@ class PrintJobTest < Test::Unit::TestCase
   def jobs_response
     {
       "jobs" => [
-        {"id" => "other_job", "status" => "status", "errorCode" => "Error"},
-        {"id" => "job_id", "status" => "status", "errorCode" => "Error"}
+        { "id" => "other_job", "status" => "status", "errorCode" => "Error" },
+        {
+          "id" => "job_id",
+          "status" => "status",
+          "errorCode" => "Error",
+          "printerid" => "printer_id",
+          "title" => "Job Title",
+          "contentType" => "image/jpeg",
+          "fileUrl" => "https://www.google.com/cloudprint/download?id=job_id",
+          "ticketUrl" => "https://www.google.com/cloudprint/ticket?jobid=job_id",
+          "createTime" => "1349722237676",
+          "updateTime" => "1349722237676",
+          "message" => "A message.",
+          "tags" => ["^own"]
+        }
       ]
     }
   end

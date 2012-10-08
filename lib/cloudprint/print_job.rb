@@ -22,7 +22,7 @@ module CloudPrint
     end
 
     def method_missing(meth, *args, &block)
-      if [:id, :status, :error_code].include?(meth)
+      if @data.has_key?(meth)
         @data[meth]
       elsif STATUSES.map{ |s| s.downcase + '?' }.include?(meth.to_s)
         @data[:status].downcase == meth.to_s.chop
@@ -50,7 +50,16 @@ module CloudPrint
       {
         :id => response_hash['id'],
         :status => response_hash['status'],
-        :error_code => response_hash['errorCode']
+        :error_code => response_hash['errorCode'],
+        :printer_id => response_hash['printerid'],
+        :title => response_hash['title'],
+        :content_type => response_hash['contentType'],
+        :file_url => response_hash['fileUrl'],
+        :ticket_url => response_hash['ticketUrl'],
+        :create_time => Time.at(response_hash['createTime'].to_f / 1000),
+        :update_time => Time.at(response_hash['updateTime'].to_f / 1000),
+        :message => response_hash['message'],
+        :tags => response_hash['tags']
       }
     end
   end
