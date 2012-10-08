@@ -1,5 +1,7 @@
 module CloudPrint
   class PrintJob
+    STATUSES = %w{QUEUED IN_PROGRESS DONE ERROR SUBMITTED}
+
     def initialize(data)
       @data = data
     end
@@ -19,29 +21,11 @@ module CloudPrint
       self
     end
 
-    def queued?
-      status == "QUEUED"
-    end
-
-    def in_progress?
-      status == "IN_PROGRESS"
-    end
-
-    def done?
-      status == "DONE"
-    end
-
-    def error?
-      status == "ERROR"
-    end
-
-    def submitted?
-      status == "SUBMITTED"
-    end
-
     def method_missing(meth, *args, &block)
       if [:id, :status, :error_code].include?(meth)
         @data[meth]
+      elsif STATUSES.map{ |s| s.downcase + '?' }.include?(meth.to_s)
+        @data[:status].downcase == meth.to_s.chop
       else
         super
       end
