@@ -1,10 +1,7 @@
 module CloudPrint
   class PrintJob
-    attr_reader :id, :status, :error_code
-    def initialize(options = {})
-      @id = options[:id]
-      @status = options[:status]
-      @error_code = options[:error_code]
+    def initialize(data)
+      @data = data
     end
 
     def self.find(jobid)
@@ -18,9 +15,7 @@ module CloudPrint
     end
 
     def refresh!
-      job = self.class.find_by_id(id)
-      @status = job['status']
-      @error_code = job['errorCode']
+      @data = self.class._normalize_response_data(self.class.find_by_id(id))
       self
     end
 
@@ -44,6 +39,14 @@ module CloudPrint
       status == "SUBMITTED"
     end
 
+    def method_missing(meth, *args, &block)
+      if [:id, :status, :error_code].include?(meth)
+        @data[meth]
+      else
+        super
+      end
+    end
+
   private
 
     def self.find_by_id(id)
@@ -56,9 +59,15 @@ module CloudPrint
     end
 
     def self.new_from_response(response_hash)
-      new :id => response_hash['id'],
-          :status => response_hash['status'],
-          :error_code => response_hash['errorCode']
+      new _normalize_response_data(response_hash)
+    end
+
+    def self._normalize_response_data(response_hash)
+      {
+        :id => response_hash['id'],
+        :status => response_hash['status'],
+        :error_code => response_hash['errorCode']
+      }
     end
   end
 end
