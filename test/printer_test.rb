@@ -61,7 +61,8 @@ class PrinterTest < Test::Unit::TestCase
     assert_equal 'Second Printer', second_printer.name
     assert_equal 'First Printer (display name)', first_printer.display_name
     assert_equal 'Second Printer (display name)', second_printer.display_name
-
+    assert_equal 'First printer description', first_printer.description
+    assert_equal 'Second printer description', second_printer.description
   end
 
   should "print stuff" do
@@ -153,8 +154,8 @@ class PrinterTest < Test::Unit::TestCase
 
   def multiple_printer_hash
     {'printers' =>[
-        {'id' => 'first_printer',  'status' => 'online', 'name' => "First Printer", 'displayName' => 'First Printer (display name)'},
-        {'id' => 'second_printer', 'status' => 'online', 'name' => "Second Printer", 'displayName' => 'Second Printer (display name)'}
+        {'id' => 'first_printer',  'status' => 'online', 'name' => "First Printer", 'displayName' => 'First Printer (display name)', 'description' => 'First printer description'},
+        {'id' => 'second_printer', 'status' => 'online', 'name' => "Second Printer", 'displayName' => 'Second Printer (display name)', 'description' => 'Second printer description'}
     ]}
   end
 

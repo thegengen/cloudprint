@@ -2,7 +2,7 @@ module CloudPrint
   class Printer
     CONNECTION_STATUSES = %w{ONLINE UNKNOWN OFFLINE DORMANT}
 
-    attr_reader :id, :status, :name, :tags, :display_name, :connection_status
+    attr_reader :id, :status, :name, :tags, :display_name, :connection_status, :description
     def initialize(options = {})
       @id = options[:id]
       @status = options[:status]
@@ -10,6 +10,7 @@ module CloudPrint
       @display_name = options[:display_name]
       @tags = options[:tags] || {}
       @connection_status = options[:connection_status] || 'UNKNOWN'
+      @description = options[:description]
     end
 
     def print(options)
@@ -48,7 +49,8 @@ module CloudPrint
           :name => hash['name'],
           :display_name => hash['displayName'],
           :tags => hash['tags'],
-          :connection_status => hash['connectionStatus']
+          :connection_status => hash['connectionStatus'],
+          :description => hash['description']
         )
       end
     end
