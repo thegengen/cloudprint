@@ -36,8 +36,22 @@ module CloudPrint
       end
 
       def all
-        response = CloudPrint.connection.get('/search')
+        search_all
+      end
+
+      def search(query = nil, conditions = {})
+        conditions[:q] = query unless query.nil?
+
+        response = CloudPrint.connection.get('/search', conditions)
         response['printers'].map { |p| new_from_hash(p) }
+      end
+
+      def method_missing(meth, *args, &block)
+        if meth =~ /^search_(#{CONNECTION_STATUSES.map(&:downcase).join('|')}|all)$/
+          search args[0], :connection_status => $1.upcase
+        else
+          super
+        end
       end
 
       private

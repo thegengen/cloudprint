@@ -114,6 +114,59 @@ class PrinterTest < Test::Unit::TestCase
         assert !printer.send(other_statuses.downcase + '?')
       end
     end
+
+    context ".search_#{status.downcase}" do
+      should "scope search by connection status '#{status}'" do
+        stub_connection
+        fake_connection.expects(:get).with('/search', { :q => 'query', :connection_status => status.upcase }).returns(one_printer_hash)
+        CloudPrint::Printer.send("search_#{status.downcase}", 'query')
+      end
+
+      should "return array of Printers" do
+        stub_connection
+        fake_connection.stubs(:get).with('/search', { :connection_status => status }).returns(one_printer_hash)
+        printers = CloudPrint::Printer.send("search_#{status.downcase}")
+        assert_equal 'my_printer', printers[0].id
+      end
+    end
+  end
+
+  context '.search_all' do
+    setup { stub_connection }
+
+    should "scope search by printers with any connection status" do
+      fake_connection.expects(:get).with('/search', { :q => 'query', :connection_status => 'ALL' }).returns(one_printer_hash)
+      CloudPrint::Printer.search_all 'query'
+    end
+
+    should "return array of Printers" do
+      fake_connection.stubs(:get).with('/search', { :connection_status => 'ALL' }).returns(one_printer_hash)
+      printers = CloudPrint::Printer.search_all
+      assert_equal 'my_printer', printers[0].id
+    end
+  end
+
+  context '.all' do
+    should 'call .search_all' do
+      CloudPrint::Printer.expects(:search_all)
+      CloudPrint::Printer.all
+    end
+  end
+
+  context '.search' do
+    setup do
+      stub_connection
+      fake_connection.expects(:get).with('/search', { :q => 'query' }).returns(one_printer_hash)
+    end
+
+    should "not scope printer search by connection status" do
+      CloudPrint::Printer.search 'query'
+    end
+
+    should "return array of Printers" do
+      printers = CloudPrint::Printer.search 'query'
+      assert_equal 'my_printer', printers[0].id
+    end
   end
 
   private
