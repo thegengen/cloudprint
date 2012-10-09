@@ -34,7 +34,7 @@ class PrinterTest < Test::Unit::TestCase
   end
 
   should "call a remote request with the proper params when finding a printer" do
-    fake_connection.expects(:get).with('/printer', :printerid => 'printer').returns(one_printer_hash)
+    fake_connection.expects(:get).with('/printer', :printerid => 'printer', :printer_connection_status => true).returns(one_printer_hash)
     stub_connection
     CloudPrint::Printer.find('printer')
   end
@@ -101,6 +101,18 @@ class PrinterTest < Test::Unit::TestCase
 
     assert_equal 'job_id', job.id
     assert_equal 'status', job.status
+  end
+
+  %w{ONLINE UNKNOWN OFFLINE DORMANT}.each do |status|
+    should "recognize a printer as #{status.downcase}" do
+      printer = CloudPrint::Printer.new(:connection_status => status)
+
+      assert printer.send(status.downcase + '?')
+
+      %w{ONLINE UNKNOWN OFFLINE DORMANT}.reject{ |s| s == status}.each do |other_statuses|
+        assert !printer.send(other_statuses.downcase + '?')
+      end
+    end
   end
 
   private
