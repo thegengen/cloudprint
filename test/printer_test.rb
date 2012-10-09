@@ -181,11 +181,11 @@ class PrinterTest < Test::Unit::TestCase
   end
 
   def print_params
-     { :title => "Hello World", :content => "<h1>ohai!</h1>", :content_type => "text/html" }
+     { :title => "Hello World", :content => "<h1>ohai!</h1>", :content_type => "text/html", :tags => ['tag'] }
   end
 
   def connection_print_params
-    { :printerid => 'printer', :title => "Hello World", :content => "<h1>ohai!</h1>", :contentType => "text/html" }
+    { :printerid => 'printer', :title => "Hello World", :content => "<h1>ohai!</h1>", :contentType => "text/html", :tag => ['tag'] }
   end
 
   def print_file
@@ -198,7 +198,7 @@ class PrinterTest < Test::Unit::TestCase
   end
 
   def connection_print_file_params
-    { :printerid => 'printer', :title => "Ruby!", :content => ruby_png_fixture, :contentType => "image/png" }
+    { :printerid => 'printer', :title => "Ruby!", :content => ruby_png_fixture, :contentType => "image/png", :tag => [] }
   end
 
   def one_printer_hash
