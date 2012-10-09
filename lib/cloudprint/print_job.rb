@@ -49,11 +49,15 @@ module CloudPrint
       def find(jobid)
         job = find_by_id(jobid)
         return nil if job.nil?
-        new_from_response job
+        _new_from_response job
       end
 
       def all
-        fetch_jobs.map { |j| new_from_response j }
+        fetch_jobs.map { |j| _new_from_response j }
+      end
+
+      def _new_from_response(response_hash)
+        new Util.normalize_response_data(response_hash)
       end
 
       private
@@ -65,10 +69,6 @@ module CloudPrint
       def fetch_jobs
         response = CloudPrint.connection.get('/jobs') || {}
         response['jobs'] || []
-      end
-
-      def new_from_response(response_hash)
-        new Util.normalize_response_data(response_hash)
       end
     end
   end
