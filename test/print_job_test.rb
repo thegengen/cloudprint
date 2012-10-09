@@ -109,6 +109,28 @@ class PrintJobTest < Test::Unit::TestCase
     assert jobs[1].id == 'job_id'
   end
 
+  context '#delete!' do
+    should "return true on success" do
+      fake_connection.stubs(:get).with('/deletejob', { :jobid => 'job_id' }).returns({ 'success' => true })
+
+      assert CloudPrint::PrintJob.new(:id => 'job_id').delete!
+    end
+
+    should "perform a remote request" do
+      fake_connection.expects(:get).with('/deletejob', { :jobid => 'job_id' }).returns({ 'success' => true })
+
+      CloudPrint::PrintJob.new(:id => 'job_id').delete!
+    end
+
+    should "raise a RequestError on failure" do
+      fake_connection.stubs(:get).with('/deletejob', { :jobid => 'job_id' }).returns({ 'success' => false, 'message' => 'This is an error', 'errorCode' => '123' })
+
+      assert_raise(CloudPrint::RequestError, 'This is an error') do
+        CloudPrint::PrintJob.new(:id => 'job_id').delete!
+      end
+    end
+  end
+
   private
 
   def jobs_response

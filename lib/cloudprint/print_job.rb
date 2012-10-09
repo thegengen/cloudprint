@@ -21,6 +21,11 @@ module CloudPrint
       self
     end
 
+    def delete!
+      response = CloudPrint.connection.get('/deletejob', { :jobid => id })
+      response['success'] || raise(RequestError, response['message'])
+    end
+
     def method_missing(meth, *args, &block)
       if @data.has_key?(meth)
         @data[meth]

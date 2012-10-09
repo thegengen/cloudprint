@@ -7,7 +7,7 @@ require "cloudprint/version"
 require "cloudprint/printer"
 require "cloudprint/connection"
 require "cloudprint/print_job"
-
+require "cloudprint/exceptions"
 
 module CloudPrint
   def self.setup(options = {})
