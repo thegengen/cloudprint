@@ -98,7 +98,7 @@ You can also delete a job, after it has finished.
 my_job.delete!
 ```
 
-=== Testing
+### Testing
 For your testing needs, cloudprint objects can be stubbed at will and initializing them does not require a connection. For example,
 to stub a print() call with the shoulda library, one would do this:
 
