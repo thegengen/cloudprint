@@ -63,7 +63,7 @@ multiple connections, you have a good chance to get some open source work under
 your belt. ;)
 
 Printing with the cloudprint gem is done with two kinds of objects. 
-```CloudPrint::Printer``` 
+`CloudPrint::Printer` 
 objects represent printers your users have set up in their CloudPrint accounts.
 You then ask these objects to print things like this:
 
@@ -75,13 +75,13 @@ my_printer.print(content: "<h1>Hello World</h1>") # the :content option can also
 ```
 
 Here's where the second kind of object comes in. If your content has been
-succesfully sent to the printer, the cloudprint gem will return a ```CloudPrint::PrintJob``` 
+succesfully sent to the printer, the cloudprint gem will return a `CloudPrint::PrintJob` 
 object. Among other things, this object will provide you with an ID for the print job
 and, a status code, and an error code if anything happened that prevented your document from
 getting printed.
 
 Most of the time, the PrintJob object that your print() call will return will
-have a status of IN_PROGRESS or QUEUED.
+have a status of `IN_PROGRESS` or `QUEUED`.
 
 If your application can simply wait for the job, you can call refresh! on your
 print job until its status changes. If not, you can store the ID and fetch the print job
