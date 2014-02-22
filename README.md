@@ -71,7 +71,7 @@ You then ask these objects to print things like this:
 printers = CloudPrint::Printer.all                  # this will return a list of printers.
 my_printer = CloudPrint::Printer.find('printer_id') # this will get a printer with a specific id.
 
-my_printer.print(content: "<h1>Hello World</h1>") # the :content option can also take a File object as a parameter, CloudPrint accepts HTML and PDF files.
+my_printer.print(content: "<h1>Hello World</h1>", content_type: "text/html") # the :content option can also take a File object as a parameter, CloudPrint accepts HTML and PDF files.
 ```
 
 Here's where the second kind of object comes in. If your content has been
