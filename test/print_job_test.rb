@@ -3,24 +3,24 @@ require 'helper'
 class PrintJobTest < Test::Unit::TestCase
   def setup
     # TODO: Is it necessary to pass a fake token to #setup?
-    CloudPrint.setup(:refresh_token => 'refresh_token')
+    @client = new_client
     stub_connection
   end
 
   should "find a job" do
     fake_connection.stubs(:get).with('/jobs').returns(jobs_response)
-    assert CloudPrint::PrintJob.find('job_id').is_a?(CloudPrint::PrintJob)
+    assert @client.print_jobs.find('job_id').is_a?(CloudPrint::PrintJob)
   end
 
   should 'perform a remote request when finding a job' do
     fake_connection.expects(:get).with('/jobs').returns({})
 
-    CloudPrint::PrintJob.find('job_id')
+    @client.print_jobs.find('job_id')
   end
 
   should 'gets the job details' do
     fake_connection.stubs(:get).with('/jobs').returns(jobs_response)
-    job = CloudPrint::PrintJob.find('job_id')
+    job = @client.print_jobs.find('job_id')
 
     assert_equal 'job_id', job.id
     assert_equal 'status', job.status
@@ -37,7 +37,7 @@ class PrintJobTest < Test::Unit::TestCase
   end
 
   should 'recognize a job as queued' do
-    job = CloudPrint::PrintJob.new(:status => "QUEUED")
+    job = @client.print_jobs.new(:status => "QUEUED")
 
     assert !job.done?
     assert !job.in_progress?
@@ -48,7 +48,7 @@ class PrintJobTest < Test::Unit::TestCase
   end
 
   should 'recognize a job as in progress' do
-    job = CloudPrint::PrintJob.new(:status => "IN_PROGRESS")
+    job = @client.print_jobs.new(:status => "IN_PROGRESS")
 
     assert !job.done?
     assert !job.queued?
@@ -59,7 +59,7 @@ class PrintJobTest < Test::Unit::TestCase
   end
 
   should 'recognize a job as done' do
-    job = CloudPrint::PrintJob.new(:status => "DONE")
+    job = @client.print_jobs.new(:status => "DONE")
 
     assert !job.in_progress?
     assert !job.queued?
@@ -70,7 +70,7 @@ class PrintJobTest < Test::Unit::TestCase
   end
 
   should "recognize a job has an error" do
-    job = CloudPrint::PrintJob.new(:status => "ERROR")
+    job = @client.print_jobs.new(:status => "ERROR")
 
     assert !job.done?
     assert !job.in_progress?
@@ -81,7 +81,7 @@ class PrintJobTest < Test::Unit::TestCase
   end
 
   should "recognize a job as submitted" do
-    job = CloudPrint::PrintJob.new(:status => "SUBMITTED")
+    job = @client.print_jobs.new(:status => "SUBMITTED")
 
     assert !job.done?
     assert !job.in_progress?
@@ -92,8 +92,8 @@ class PrintJobTest < Test::Unit::TestCase
   end
 
   should "refresh a job" do
-    job = CloudPrint::PrintJob.new(:id => "job_id", :status => "IN_PROGRESS")
-    CloudPrint::PrintJob.stubs(:find_by_id).returns({"id" => "job_id", "status" => "DONE", "errorCode" => "42"})
+    job = @client.print_jobs.new(:id => "job_id", :status => "IN_PROGRESS")
+    @client.print_jobs.stubs(:find_by_id).returns({"id" => "job_id", "status" => "DONE", "errorCode" => "42"})
 
     assert_equal job, job.refresh!
 
@@ -103,7 +103,7 @@ class PrintJobTest < Test::Unit::TestCase
 
   should "return all jobs" do
     fake_connection.stubs(:get).with('/jobs').returns(jobs_response)
-    jobs = CloudPrint::PrintJob.all
+    jobs = @client.print_jobs.all
 
     assert jobs[0].id == 'other_job'
     assert jobs[1].id == 'job_id'
@@ -113,20 +113,20 @@ class PrintJobTest < Test::Unit::TestCase
     should "return true on success" do
       fake_connection.stubs(:get).with('/deletejob', { :jobid => 'job_id' }).returns({ 'success' => true })
 
-      assert CloudPrint::PrintJob.new(:id => 'job_id').delete!
+      assert @client.print_jobs.new(:id => 'job_id').delete!
     end
 
     should "perform a remote request" do
       fake_connection.expects(:get).with('/deletejob', { :jobid => 'job_id' }).returns({ 'success' => true })
 
-      CloudPrint::PrintJob.new(:id => 'job_id').delete!
+      @client.print_jobs.new(:id => 'job_id').delete!
     end
 
     should "raise a RequestError on failure" do
       fake_connection.stubs(:get).with('/deletejob', { :jobid => 'job_id' }).returns({ 'success' => false, 'message' => 'This is an error', 'errorCode' => '123' })
 
       assert_raise(CloudPrint::RequestError, 'This is an error') do
-        CloudPrint::PrintJob.new(:id => 'job_id').delete!
+        @client.print_jobs.new(:id => 'job_id').delete!
       end
     end
   end

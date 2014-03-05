@@ -4,6 +4,11 @@ require 'shoulda/context'
 require 'mocha'
 
 class Test::Unit::TestCase
+
+  def new_client
+    CloudPrint.setup(refresh_token: "refresh_token")
+  end
+  
   def any_connection
     CloudPrint::Connection.any_instance
   end
@@ -26,7 +31,6 @@ class Test::Unit::TestCase
 
   def stub_http
     mock = mock_http()
-
     Net::HTTP.stubs(:new).returns(mock)
   end
 
@@ -45,7 +49,7 @@ class Test::Unit::TestCase
   end
 
   def stub_oauth_client
-    CloudPrint.stubs(:oauth_client).returns(mock_oauth_client)
+    CloudPrint::Base.any_instance.stubs(:oauth_client).returns(mock_oauth_client)
   end
 
   def fake_connection
@@ -53,7 +57,7 @@ class Test::Unit::TestCase
   end
 
   def stub_connection
-    CloudPrint.stubs(:connection).returns(fake_connection)
+    CloudPrint::Base.any_instance.stubs(:connection).returns(fake_connection)
     @connection.stub_everything
   end
 

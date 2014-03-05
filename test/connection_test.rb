@@ -2,7 +2,8 @@ require "helper"
 
 class ConnectionTest < Test::Unit::TestCase
   def setup
-    @connection = CloudPrint::Connection.new
+    stub_access_token
+    @connection = new_client.connection
   end
 
   should "get using a connection" do
@@ -66,7 +67,6 @@ class ConnectionTest < Test::Unit::TestCase
     stub
     @connection.stubs(:build_http_connection).returns(mock_http)
 
-    CloudPrint.expects(:access_token).returns('token')
     @connection.get('/submit')
   end
 
