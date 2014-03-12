@@ -2,27 +2,26 @@ module CloudPrint
   class PrintJob
     STATUSES = %w{QUEUED IN_PROGRESS DONE ERROR SUBMITTED}
 
-    attr_reader :base
-    delegate :connection, to: :base
+    attr_reader :client
 
     class << self
-      def new_from_response base, response_hash
-        new base, Util.normalize_response_data(response_hash)
+      def new_from_response client, response_hash
+        new client, Util.normalize_response_data(response_hash)
       end
     end
 
-    def initialize(base, data)
-      @base = base
+    def initialize(client, data)
+      @client = client
       @data = data
     end
 
     def refresh!
-      @data = Util.normalize_response_data(base.print_jobs.find_by_id(id))
+      @data = Util.normalize_response_data(client.print_jobs.find_by_id(id))
       self
     end
 
     def delete!
-      response = connection.get('/deletejob', { :jobid => id })
+      response = client.connection.get('/deletejob', { :jobid => id })
       response['success'] || raise(RequestError, response['message'])
     end
 

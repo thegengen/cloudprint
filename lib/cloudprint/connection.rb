@@ -5,8 +5,8 @@ require "uri"
 module CloudPrint
   class Connection
 
-    def initialize base
-      @base = base
+    def initialize client
+      @client = client
     end
     
     def get(path, params = {})
@@ -72,7 +72,7 @@ module CloudPrint
     end
 
     def set_request_headers(request)
-      request['Authorization'] = "OAuth " + @base.access_token
+      request['Authorization'] = "OAuth " + @client.access_token
       request['X-CloudPrint-Proxy'] = 'api-prober'
     end
 

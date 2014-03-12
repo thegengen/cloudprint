@@ -1,11 +1,10 @@
 module CloudPrint
   class PrintJobCollection
 
-    attr_accessor :base
-    delegate :connection, to: :base
+    attr_accessor :client
     
-    def initialize base
-      @base = base
+    def initialize client
+      @client = client
     end
     
     def find(jobid)
@@ -19,11 +18,11 @@ module CloudPrint
     end
 
     def new data
-      PrintJob.new base, data
+      PrintJob.new client, data
     end
 
     def new_from_response response
-      PrintJob.new_from_response base, response
+      PrintJob.new_from_response client, response
     end
 
     private
@@ -33,7 +32,7 @@ module CloudPrint
     end
 
     def fetch_jobs
-      response = connection.get('/jobs') || {}
+      response = client.connection.get('/jobs') || {}
       response['jobs'] || []
     end
   end

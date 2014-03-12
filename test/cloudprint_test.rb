@@ -11,11 +11,13 @@ class CloudPrintTest < Test::Unit::TestCase
   end
 
   should "be able to set up CloudPrint" do
-    assert CloudPrint.respond_to?(:setup)
-  end
+    assert_nothing_raised do
+      CloudPrint::Client.new
+    end
+   end
 
   should "stores a client id, client secret, callback URL and refresh token" do
-    client = CloudPrint.setup(:refresh_token => 'refresh_token', :client_id => 'client_id', :client_secret => 'client_secret', :callback_url => 'callback_url')
+    client = CloudPrint::Client.new(:refresh_token => 'refresh_token', :client_id => 'client_id', :client_secret => 'client_secret', :callback_url => 'callback_url')
     assert_equal 'client_id', client.client_id
     assert_equal 'client_secret', client.client_secret
     assert_equal 'refresh_token', client.refresh_token
@@ -70,7 +72,7 @@ class CloudPrintTest < Test::Unit::TestCase
   end
 
   should "set up an oauth client" do
-    client = CloudPrint.setup(:client_id => 'client_id', :client_secret => 'client_secret', :callback_url => "http://test.com/callback")
+    client = CloudPrint::Client.new(:client_id => 'client_id', :client_secret => 'client_secret', :callback_url => "http://test.com/callback")
     client.stubs(:access_token_valid?).returns(false)
     OAuth2::Client.expects(:new).with('client_id', 'client_secret',
                                       :authorize_url => "/o/oauth2/auth",
@@ -82,7 +84,7 @@ class CloudPrintTest < Test::Unit::TestCase
   end
 
   should "initialize an access token when getting a new access token" do
-    client = CloudPrint.setup(:refresh_token => "refresh_token")
+    client = CloudPrint::Client.new(:refresh_token => "refresh_token")
     client.stubs(:access_token_valid?).returns(false)
 
     client.expects(:renew_access_token!).returns(mock_access_token)
@@ -91,7 +93,6 @@ class CloudPrintTest < Test::Unit::TestCase
 
   should "get an auth token from oauth2" do
     token = mock_access_token
-    CloudPrint.setup(:refresh_token => "refresh_token")
     @client.stubs(:access_token_valid?).returns(false)
     stub_oauth_client
 

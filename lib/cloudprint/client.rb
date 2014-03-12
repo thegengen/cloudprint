@@ -1,5 +1,5 @@
 module CloudPrint
-  class Base
+  class Client
     attr_reader :client_secret
     attr_reader :client_id
     attr_reader :refresh_token
@@ -28,7 +28,7 @@ module CloudPrint
     end
 
     def access_token_valid?
-      @access_token.present? && @access_token.token.present? && !@access_token.expired?
+      @access_token.is_a?(OAuth2::AccessToken) && !@access_token.token.to_s.strip.empty? && !@access_token.expired?
     end
 
     private

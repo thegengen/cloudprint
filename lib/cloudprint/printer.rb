@@ -1,15 +1,12 @@
 module CloudPrint
   class Printer
     CONNECTION_STATUSES = %w{ONLINE UNKNOWN OFFLINE DORMANT}
-    CONFIG_OPTS = [:id, :status, :name, :tags, :display_name, :base, :connection_status, :description]
+    CONFIG_OPTS = [:id, :status, :name, :tags, :display_name, :client, :connection_status, :description]
     
     attr_reader *CONFIG_OPTS
-    delegate :connection, to: :base
     
     def initialize(options = {})
-      options.to_options!.assert_valid_keys CONFIG_OPTS
-      
-      @base = options[:base]
+      @client = options[:client]
       @id = options[:id]
       @status = options[:status]
       @name = options[:name]
@@ -21,9 +18,9 @@ module CloudPrint
 
     def print(options)
       method = options[:content].is_a?(IO) ? :multipart_post : :post
-      response = connection.send(method, '/submit', :printerid => self.id, :title => options[:title], :content => options[:content], :contentType => options[:content_type]) || {}
+      response = client.connection.send(method, '/submit', :printerid => self.id, :title => options[:title], :content => options[:content], :contentType => options[:content_type]) || {}
       return nil if response.nil? || response["job"].nil?
-      base.print_jobs.new_from_response response["job"]
+      client.print_jobs.new_from_response response["job"]
     end
 
     def method_missing(meth, *args, &block)

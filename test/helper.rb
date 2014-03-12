@@ -6,7 +6,7 @@ require 'mocha'
 class Test::Unit::TestCase
 
   def new_client
-    CloudPrint.setup(refresh_token: "refresh_token")
+    CloudPrint::Client.new(refresh_token: "refresh_token")
   end
   
   def any_connection
@@ -49,7 +49,7 @@ class Test::Unit::TestCase
   end
 
   def stub_oauth_client
-    CloudPrint::Base.any_instance.stubs(:oauth_client).returns(mock_oauth_client)
+    CloudPrint::Client.any_instance.stubs(:oauth_client).returns(mock_oauth_client)
   end
 
   def fake_connection
@@ -57,7 +57,7 @@ class Test::Unit::TestCase
   end
 
   def stub_connection
-    CloudPrint::Base.any_instance.stubs(:connection).returns(fake_connection)
+    CloudPrint::Client.any_instance.stubs(:connection).returns(fake_connection)
     @connection.stub_everything
   end
 
