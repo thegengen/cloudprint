@@ -2,17 +2,26 @@ module CloudPrint
   class PrintJob
     STATUSES = %w{QUEUED IN_PROGRESS DONE ERROR SUBMITTED}
 
-    def initialize(data)
+    attr_reader :client
+
+    class << self
+      def new_from_response client, response_hash
+        new client, Util.normalize_response_data(response_hash)
+      end
+    end
+
+    def initialize(client, data)
+      @client = client
       @data = data
     end
 
     def refresh!
-      @data = Util.normalize_response_data(self.class.find_by_id(id))
+      @data = Util.normalize_response_data(client.print_jobs.find_by_id(id))
       self
     end
 
     def delete!
-      response = CloudPrint.connection.get('/deletejob', { :jobid => id })
+      response = client.connection.get('/deletejob', { :jobid => id })
       response['success'] || raise(RequestError, response['message'])
     end
 
@@ -42,33 +51,6 @@ module CloudPrint
           :message => response_hash['message'],
           :tags => response_hash['tags']
         }
-      end
-    end
-
-    class << self
-      def find(jobid)
-        job = find_by_id(jobid)
-        return nil if job.nil?
-        _new_from_response job
-      end
-
-      def all
-        fetch_jobs.map { |j| _new_from_response j }
-      end
-
-      def _new_from_response(response_hash)
-        new Util.normalize_response_data(response_hash)
-      end
-
-      private
-
-      def find_by_id(id)
-        fetch_jobs.select{ |job| job['id'] == id }.first
-      end
-
-      def fetch_jobs
-        response = CloudPrint.connection.get('/jobs') || {}
-        response['jobs'] || []
       end
     end
   end
