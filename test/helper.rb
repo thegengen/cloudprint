@@ -1,7 +1,7 @@
 require 'cloudprint'
 require 'test/unit'
 require 'shoulda/context'
-require 'mocha'
+require 'mocha/test_unit'
 
 class Test::Unit::TestCase
 

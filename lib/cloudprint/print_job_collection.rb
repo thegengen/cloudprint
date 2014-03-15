@@ -25,11 +25,11 @@ module CloudPrint
       PrintJob.new_from_response client, response
     end
 
-    private
-
     def find_by_id(id)
       fetch_jobs.select{ |job| job['id'] == id }.first
     end
+
+    private
 
     def fetch_jobs
       response = client.connection.get('/jobs') || {}

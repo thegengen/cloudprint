@@ -18,7 +18,7 @@ DESC
   s.add_dependency 'oauth2', '~> 0.8.0'
   s.add_dependency 'json'
 
-  s.add_development_dependency 'mocha', '~> 0.10.0'
+  s.add_development_dependency 'mocha'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'shoulda-context'
   s.add_development_dependency 'test-unit'
