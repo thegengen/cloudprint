@@ -5,6 +5,7 @@ require "json"
 
 require "cloudprint/version"
 require "cloudprint/client"
+require "cloudprint/credentials_client"
 require "cloudprint/printer_collection"
 require "cloudprint/printer"
 require "cloudprint/connection"
