@@ -7,7 +7,7 @@ module CloudPrint
     attr_reader :connection
     attr_reader :printers
     attr_reader :print_jobs
-    
+
     def initialize(options = {})
       @refresh_token = options[:refresh_token]
       @client_id = options[:client_id]
@@ -17,7 +17,7 @@ module CloudPrint
       @printers = PrinterCollection.new(self)
       @print_jobs = PrintJobCollection.new(self)
     end
-    
+
     def access_token
       (access_token_valid? && @access_token || renew_access_token!).token
     end
@@ -29,6 +29,10 @@ module CloudPrint
 
     def access_token_valid?
       @access_token.is_a?(OAuth2::AccessToken) && !@access_token.token.to_s.strip.empty? && !@access_token.expired?
+    end
+
+    def auth_header
+      "OAuth #{access_token}"
     end
 
     private
