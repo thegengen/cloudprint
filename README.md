@@ -12,7 +12,7 @@ entry such as this.
 gem 'cloudprint'
 ```
 
-Afterwards, run 
+Afterwards, run
 ```
 bundle
 ```
@@ -21,7 +21,7 @@ Next, you'll need to authenticate your users with Google Cloud Print. Cloud
 Print uses OAuth2 as an authentication mechanism.
 
 First, you need to register your application within the Google Console. To do
-that, go to [https://cloud.google.com/console](https://cloud.google.com/console) 
+that, go to [https://cloud.google.com/console](https://cloud.google.com/console)
 . Doing this will provide you with two things that will be needed to manage
 your users' printers: a client ID and a client secret.  
 
@@ -62,20 +62,26 @@ client = CloudPrint::Client.new(
 )
 ```
 
-Printing with the cloudprint gem is done with two kinds of objects. 
-`CloudPrint::Printer` 
+Or instead you could just use the client which authenticates with username and password:
+
+```ruby
+client = CloudPrint::CredentialsClient.new('your_email@company.com', 's3cret_passw0rd')
+```
+
+Printing with the cloudprint gem is done with two kinds of objects.
+`CloudPrint::Printer`
 objects represent printers your users have set up in their CloudPrint accounts.
 You then ask these objects to print things like this:
 
 ```ruby
 # Get a list of all the printers this client can talk to.
-printers = client.printers.all                      
+printers = client.printers.all
 
 # Get a printer with a specific id
 my_printer = client.printers.find('printer_id')
 
 # Print using this printer.
-# The :content option can also take a File object as a parameter. 
+# The :content option can also take a File object as a parameter.
 # CloudPrint accepts HTML and PDF files.
 my_printer.print(content: "<h1>Hello World</h1>", content_type: "text/html")
 ```
@@ -97,7 +103,7 @@ print job at a later time to verify its status.
 my_job = client.print_jobs.find('job_id')
 
 # Returns the status, one of QUEUED, IN_PROGRESS, DONE, ERROR, SUBMITTED
-my_job.status 
+my_job.status
 ```
 
 You can also delete a job, after it has finished.
