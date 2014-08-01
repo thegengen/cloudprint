@@ -8,7 +8,7 @@ module CloudPrint
     def initialize client
       @client = client
     end
-    
+
     def get(path, params = {})
       response = request(:get, path, params)
       parse_response(response)
@@ -72,7 +72,7 @@ module CloudPrint
     end
 
     def set_request_headers(request)
-      request['Authorization'] = "OAuth " + @client.access_token
+      request['Authorization'] = @client.auth_header
       request['X-CloudPrint-Proxy'] = 'api-prober'
     end
 
