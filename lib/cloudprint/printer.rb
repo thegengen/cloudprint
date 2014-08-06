@@ -19,7 +19,7 @@ module CloudPrint
 
     def print(options)
       method = options[:content].is_a?(IO) ? :multipart_post : :post
-      response = client.connection.send(method, '/submit', :printerid => self.id, :title => options[:title], :content => options[:content], :contentType => options[:content_type]) || {}
+      response = client.connection.send(method, '/submit', :printerid => self.id, :title => options[:title], :content => options[:content], :ticket => options[:ticket], :contentType => options[:content_type]) || {}
       return nil if response.nil? || response["job"].nil?
       client.print_jobs.new_from_response response["job"]
     end
