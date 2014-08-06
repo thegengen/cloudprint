@@ -45,7 +45,8 @@ module CloudPrint
         display_name: hash['displayName'],
         tags: hash['tags'],
         connection_status: hash['connectionStatus'],
-        description: hash['description']
+        description: hash['description'],
+        capabilities: hash['capabilities']
         )
     end
   end
