@@ -1,7 +1,7 @@
 module CloudPrint
   class Printer
     CONNECTION_STATUSES = %w{ONLINE UNKNOWN OFFLINE DORMANT}
-    CONFIG_OPTS = [:id, :status, :name, :tags, :display_name, :client, :connection_status, :description]
+    CONFIG_OPTS = [:id, :status, :name, :tags, :display_name, :client, :connection_status, :description, :capabilities]
     
     attr_reader *CONFIG_OPTS
     
@@ -14,6 +14,7 @@ module CloudPrint
       @tags = options[:tags] || {}
       @connection_status = options[:connection_status] || 'UNKNOWN'
       @description = options[:description]
+      @capabilities = options[:capabilities]
     end
 
     def print(options)
