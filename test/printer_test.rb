@@ -1,4 +1,5 @@
 require "helper"
+require "test/unit"
 class PrinterTest < Test::Unit::TestCase
   def setup
     @client = new_client
@@ -180,11 +181,11 @@ class PrinterTest < Test::Unit::TestCase
   end
 
   def print_params
-     { :title => "Hello World", :content => "<h1>ohai!</h1>", :content_type => "text/html" }
+     { :title => "Hello World", :content => "<h1>ohai!</h1>", :content_type => "text/html", :ticket => ticket_hash }
   end
 
   def connection_print_params
-    { :printerid => 'printer', :title => "Hello World", :content => "<h1>ohai!</h1>", :contentType => "text/html" }
+    { :printerid => 'printer', :title => "Hello World", :content => "<h1>ohai!</h1>", :contentType => "text/html", :ticket => ticket_hash }
   end
 
   def print_file
@@ -193,11 +194,11 @@ class PrinterTest < Test::Unit::TestCase
   end
 
   def print_file_params
-    { :title => "Ruby!", :content => ruby_png_fixture, :content_type => "image/png" }
+    { :title => "Ruby!", :content => ruby_png_fixture, :content_type => "image/png", :ticket => ticket_hash }
   end
 
   def connection_print_file_params
-    { :printerid => 'printer', :title => "Ruby!", :content => ruby_png_fixture, :contentType => "image/png" }
+    { :printerid => 'printer', :title => "Ruby!", :content => ruby_png_fixture, :contentType => "image/png", :ticket => ticket_hash }
   end
 
   def one_printer_hash
@@ -209,6 +210,20 @@ class PrinterTest < Test::Unit::TestCase
         {'id' => 'first_printer',  'status' => 'online', 'name' => "First Printer", 'displayName' => 'First Printer (display name)', 'description' => 'First printer description'},
         {'id' => 'second_printer', 'status' => 'online', 'name' => "Second Printer", 'displayName' => 'Second Printer (display name)', 'description' => 'Second printer description'}
     ]}
+  end
+  
+  def ticket_hash 
+    { 'version' => '1.0', 
+      'print' => { 
+        'vendor_ticket_item' => [
+          {'id' => 'PageRegion', 'value' => "Letter"},
+          {'id' => 'BRMediaType', 'value' => 'Plain'},
+          {'id' => 'InputSlot', 'value' => 'Tray1'} 
+        ],
+        'page_orientation' => {'type' => 2},
+        'fit_to_page' => {'type' => 3}
+      }
+    }    
   end
 
   def ruby_png_fixture
