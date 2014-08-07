@@ -49,7 +49,8 @@ module CloudPrint
           :create_time => Time.at(response_hash['createTime'].to_f / 1000),
           :update_time => Time.at(response_hash['updateTime'].to_f / 1000),
           :message => response_hash['message'],
-          :tags => response_hash['tags']
+          :tags => response_hash['tags'],
+          :ticket => response_hash['ticket']
         }
       end
     end
