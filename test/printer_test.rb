@@ -185,7 +185,7 @@ class PrinterTest < Test::Unit::TestCase
   end
 
   def connection_print_params
-    { :printerid => 'printer', :title => "Hello World", :content => "<h1>ohai!</h1>", :contentType => "text/html", :ticket => ticket_hash }
+    { :printerid => 'printer', :title => "Hello World", :content => "<h1>ohai!</h1>", :contentType => "text/html", :ticket => ticket_hash.to_json }
   end
 
   def print_file
@@ -198,7 +198,7 @@ class PrinterTest < Test::Unit::TestCase
   end
 
   def connection_print_file_params
-    { :printerid => 'printer', :title => "Ruby!", :content => ruby_png_fixture, :contentType => "image/png", :ticket => ticket_hash }
+    { :printerid => 'printer', :title => "Ruby!", :content => ruby_png_fixture, :contentType => "image/png", :ticket => ticket_hash.to_json }
   end
 
   def one_printer_hash
@@ -211,19 +211,19 @@ class PrinterTest < Test::Unit::TestCase
         {'id' => 'second_printer', 'status' => 'online', 'name' => "Second Printer", 'displayName' => 'Second Printer (display name)', 'description' => 'Second printer description'}
     ]}
   end
-  
-  def ticket_hash 
-    { 'version' => '1.0', 
-      'print' => { 
+
+  def ticket_hash
+    { 'version' => '1.0',
+      'print' => {
         'vendor_ticket_item' => [
           {'id' => 'PageRegion', 'value' => "Letter"},
           {'id' => 'BRMediaType', 'value' => 'Plain'},
-          {'id' => 'InputSlot', 'value' => 'Tray1'} 
+          {'id' => 'InputSlot', 'value' => 'Tray1'}
         ],
         'page_orientation' => {'type' => 2},
         'fit_to_page' => {'type' => 3}
       }
-    }    
+    }
   end
 
   def ruby_png_fixture

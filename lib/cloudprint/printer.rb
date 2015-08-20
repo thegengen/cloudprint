@@ -2,9 +2,9 @@ module CloudPrint
   class Printer
     CONNECTION_STATUSES = %w{ONLINE UNKNOWN OFFLINE DORMANT}
     CONFIG_OPTS = [:id, :status, :name, :tags, :display_name, :client, :connection_status, :description, :capabilities]
-    
+
     attr_reader *CONFIG_OPTS
-    
+
     def initialize(options = {})
       @client = options[:client]
       @id = options[:id]
@@ -19,7 +19,7 @@ module CloudPrint
 
     def print(options)
       method = options[:content].is_a?(IO) ? :multipart_post : :post
-      response = client.connection.send(method, '/submit', :printerid => self.id, :title => options[:title], :content => options[:content], :ticket => options[:ticket], :contentType => options[:content_type]) || {}
+      response = client.connection.send(method, '/submit', :printerid => self.id, :title => options[:title], :content => options[:content], :ticket => options[:ticket].to_json, :contentType => options[:content_type]) || {}
       return nil if response.nil? || response["job"].nil?
       client.print_jobs.new_from_response response["job"]
     end
