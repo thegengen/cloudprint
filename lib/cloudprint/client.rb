@@ -7,8 +7,9 @@ module CloudPrint
     attr_reader :connection
     attr_reader :printers
     attr_reader :print_jobs
-    
+
     def initialize(options = {})
+      @access_token = nil
       @refresh_token = options[:refresh_token]
       @client_id = options[:client_id]
       @client_secret = options[:client_secret]
@@ -17,7 +18,7 @@ module CloudPrint
       @printers = PrinterCollection.new(self)
       @print_jobs = PrintJobCollection.new(self)
     end
-    
+
     def access_token
       (access_token_valid? && @access_token || renew_access_token!).token
     end

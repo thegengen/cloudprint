@@ -64,4 +64,21 @@ class Minitest::Test
   def fixture_file(filename)
     File.join(File.dirname(__FILE__), 'fixtures', filename)
   end
+
+  # Adapted from minitest's assert_raises
+  def assert_nothing_raised(msg = nil)
+    begin
+      yield
+      pass # count assertion
+    rescue Minitest::Skip, Minitest::Assertion
+      # don't count assertion
+      raise
+    rescue SignalException, SystemExit
+      raise
+    rescue Exception => e
+      flunk proc {
+        exception_details(e, "#{e} exception not expected")
+      }
+    end
+  end
 end

@@ -125,7 +125,7 @@ class PrintJobTest < Minitest::Test
     should "raise a RequestError on failure" do
       fake_connection.stubs(:get).with('/deletejob', { :jobid => 'job_id' }).returns({ 'success' => false, 'message' => 'This is an error', 'errorCode' => '123' })
 
-      assert_raise(CloudPrint::RequestError, 'This is an error') do
+      assert_raises(CloudPrint::RequestError, 'This is an error') do
         @client.print_jobs.new(:id => 'job_id').delete!
       end
     end
