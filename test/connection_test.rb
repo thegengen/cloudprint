@@ -1,6 +1,6 @@
 require "helper"
 
-class ConnectionTest < Test::Unit::TestCase
+class ConnectionTest < Minitest::Test
   def setup
     stub_access_token
     @connection = new_client.connection

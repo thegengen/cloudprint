@@ -1,14 +1,14 @@
 require 'cloudprint'
-require 'test/unit'
+require 'minitest/autorun'
 require 'shoulda/context'
-require 'mocha/test_unit'
+require 'mocha/mini_test'
 
-class Test::Unit::TestCase
+class Minitest::Test
 
   def new_client
     CloudPrint::Client.new(refresh_token: "refresh_token")
   end
-  
+
   def any_connection
     CloudPrint::Connection.any_instance
   end

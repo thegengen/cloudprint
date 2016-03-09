@@ -1,6 +1,6 @@
 require 'helper'
 
-class CloudPrintTest < Test::Unit::TestCase
+class CloudPrintTest < Minitest::Test
   def setup
     stub_access_token
     @client = new_client

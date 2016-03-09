@@ -9,19 +9,19 @@ Gem::Specification.new do |s|
   s.email       = ["eugen@lesseverything.com"]
   s.homepage    = "http://github.com/minciue/cloudprint"
   s.licenses    = ["MIT"]
-  s.summary     = "This library provides a ruby-esque interface to Google Cloud Print."
+  s.summary     = "This library provides a Ruby interface to Google Cloud Print."
   s.description = <<-DESC
-This library provides a ruby-esque interface to Google Cloud Print.
+This library provides a Ruby interface to Google Cloud Print.
 cloudprint is a work in progress. I'll be adding documentation once all the basic GCP functionality is supported."
 DESC
 
-  s.add_dependency 'oauth2', '~> 0.8.0'
+  s.add_dependency 'oauth2', '>= 1.0.0'
   s.add_dependency 'json'
 
   s.add_development_dependency 'mocha'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'shoulda-context'
-  s.add_development_dependency 'test-unit'
+  s.add_development_dependency 'minitest'
 
   s.rubyforge_project = "cloudprint"
 

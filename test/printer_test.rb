@@ -1,6 +1,6 @@
 require "helper"
-require "test/unit"
-class PrinterTest < Test::Unit::TestCase
+
+class PrinterTest < Minitest::Test
   def setup
     @client = new_client
   end

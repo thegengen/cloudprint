@@ -1,6 +1,6 @@
 require 'helper'
 
-class PrintJobTest < Test::Unit::TestCase
+class PrintJobTest < Minitest::Test
   def setup
     # TODO: Is it necessary to pass a fake token to #setup?
     @client = new_client
