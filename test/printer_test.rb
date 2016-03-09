@@ -95,6 +95,26 @@ class PrinterTest < Minitest::Test
     print_file
   end
 
+  should "print stringio" do
+    stringio = StringIO.new(ruby_png_fixture.read)
+
+    fake_connection.expects(:multipart_post).with('/submit', connection_print_file_params.merge(:content => stringio)).returns(empty_job)
+    stub_connection
+
+    printer = @client.printers.new(:id => 'printer')
+    printer.print(print_file_params.merge(:content => stringio))
+  end
+
+  should "print tempfile" do
+    Tempfile.open "cloundprint_test" do |tempfile|
+      fake_connection.expects(:multipart_post).with('/submit', connection_print_file_params.merge(:content => tempfile)).returns(empty_job)
+      stub_connection
+
+      printer = @client.printers.new(:id => 'printer')
+      printer.print(print_file_params.merge(:content => tempfile))
+    end
+  end
+
   should "print jobs returning an id and a status" do
     stub_connection
     fake_connection.expects(:post).with('/submit', connection_print_params).returns({"success" => true, "job" => {"id" => "job_id", "status" => 'status'}})
