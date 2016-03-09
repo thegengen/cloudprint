@@ -3,7 +3,7 @@ module CloudPrint
     CONNECTION_STATUSES = %w{ONLINE UNKNOWN OFFLINE DORMANT}
     CONFIG_OPTS = [:id, :status, :name, :tags, :display_name, :client, :connection_status, :description, :capabilities]
 
-    attr_reader *CONFIG_OPTS
+    CONFIG_OPTS.each { |opt| attr_reader(opt) }
 
     def initialize(options = {})
       @client = options[:client]

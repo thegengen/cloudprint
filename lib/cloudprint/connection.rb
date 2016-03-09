@@ -8,7 +8,7 @@ module CloudPrint
     def initialize client
       @client = client
     end
-    
+
     def get(path, params = {})
       response = request(:get, path, params)
       parse_response(response)
@@ -37,7 +37,7 @@ module CloudPrint
 
     def request(method, path, params)
       url = full_url_for(path)
-      response = make_http_request(:method => method, :url => url, :params => params)
+      make_http_request(:method => method, :url => url, :params => params)
     end
 
     def make_http_request(options = {})
