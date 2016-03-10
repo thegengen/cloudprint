@@ -154,21 +154,21 @@ class PrinterTest < Minitest::Test
   context '.search_all' do
     setup { stub_connection }
 
-    should "scope search by printers with any connection status" do
-      fake_connection.expects(:get).with('/search', { :q => 'query', :connection_status => 'ALL' }).returns(one_printer_hash)
+    should "search printers regardless of connection status" do
+      fake_connection.expects(:get).with('/search', { :q => 'query' }).returns(one_printer_hash)
       @client.printers.search_all 'query'
     end
 
     should "return array of Printers" do
-      fake_connection.stubs(:get).with('/search', { :connection_status => 'ALL' }).returns(one_printer_hash)
+      fake_connection.stubs(:get).with('/search', {}).returns(one_printer_hash)
       printers = @client.printers.search_all
       assert_equal 'my_printer', printers[0].id
     end
   end
 
   context '.all' do
-    should 'call .search_all' do
-      @client.printers.expects(:search_all)
+    should 'call .search with no query' do
+      @client.printers.expects(:search)
       @client.printers.all
     end
   end

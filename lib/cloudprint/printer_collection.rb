@@ -14,7 +14,7 @@ module CloudPrint
     end
 
     def all
-      search_all
+      search()
     end
 
     def search(query = nil, conditions = {})
@@ -23,13 +23,22 @@ module CloudPrint
       response = client.connection.get('/search', conditions)
       response['printers'].map { |p| new_printer_from_hash(p) }
     end
+    alias_method :search_all, :search
 
-    def method_missing(meth, *args, &block)
-      if meth =~ /^search_(#{Printer::CONNECTION_STATUSES.map(&:downcase).join('|')}|all)$/
-        search args[0], connection_status: $1.upcase
-      else
-        super
-      end
+    def search_online(q = nil, conditions = {})
+      search_with_status(q, 'ONLINE', conditions)
+    end
+
+    def search_unknown(q = nil, conditions = {})
+      search_with_status(q, 'UNKNOWN', conditions)
+    end
+
+    def search_offline(q = nil, conditions = {})
+      search_with_status(q, 'OFFLINE', conditions)
+    end
+
+    def search_dormant(q = nil, conditions = {})
+      search_with_status(q, 'DORMANT', conditions)
     end
 
     def new opts
@@ -48,6 +57,12 @@ module CloudPrint
         description: hash['description'],
         capabilities: hash['capabilities']
         )
+    end
+
+    private
+
+    def search_with_status(q, status, conditions)
+      search(q, conditions.merge(connection_status: status))
     end
   end
 end
