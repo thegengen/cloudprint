@@ -64,7 +64,7 @@ module CloudPrint
                     req.set_form_data(options[:params])
                     req
                   else
-                    req = Net::HTTP::Get.new(build_get_uri(uri.request_uri, options[:params]))
+                    req = Net::HTTP::Get.new(build_get_uri(uri, options[:params]))
                 end
 
       set_request_headers(request)
@@ -77,11 +77,9 @@ module CloudPrint
     end
 
     def build_get_uri(uri, params = {})
-      unescaped_params = params.map { |key,val| "#{key}=#{val}"}.join("&")
-      escaped_params = URI.escape(unescaped_params)
-
-      escaped_params = "?#{escaped_params}" unless escaped_params.empty?
-      uri + escaped_params
+      uri = uri.dup
+      uri.query = params.any? ? URI.encode_www_form(params) : nil
+      uri.request_uri
     end
 
     def build_http_connection(uri)

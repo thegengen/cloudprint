@@ -59,7 +59,7 @@ class ConnectionTest < Minitest::Test
     stub
 
     params = { :text => 'ohai world' }
-    Net::HTTP::Get.expects(:new).with("/cloudprint/submit?text=ohai%20world").returns(mock_http)
+    Net::HTTP::Get.expects(:new).with("/cloudprint/submit?text=ohai+world").returns(mock_http)
     @connection.get('/submit', params)
   end
 
