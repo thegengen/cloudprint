@@ -1,4 +1,5 @@
-require "helper"
+require "./helper"
+require "byebug"
 
 class PrinterTest < Minitest::Test
   def setup
@@ -70,6 +71,18 @@ class PrinterTest < Minitest::Test
     stub_connection
 
     print_stuff
+  end
+
+  ################
+  should "return an array of jobs" do
+    stub_connection
+    fake_connection.expects(:post).with('/jobs', {:printerid => "printer"}).returns(real_jobs_hash)
+
+    print_job_array = get_all_jobs
+    assert print_job_array.is_a?(Array)
+    assert print_job_array.map(&:class).uniq.length.equal?(1)
+    assert print_job_array.map(&:class).uniq.first.equal?(CloudPrint::PrintJob)
+    assert print_job_array.length.equal?(3)
   end
 
   should "return a job" do
@@ -200,6 +213,11 @@ class PrinterTest < Minitest::Test
     printer.print(print_params)
   end
 
+  def get_all_jobs
+    printer = @client.printers.new(:id => 'printer')
+    printer.all_jobs
+  end
+
   def print_params
      { :title => "Hello World", :content => "<h1>ohai!</h1>", :content_type => "text/html", :ticket => ticket_hash }
   end
@@ -250,4 +268,139 @@ class PrinterTest < Minitest::Test
     @ruby_png_fixture ||= File.open(fixture_file('ruby.png'))
   end
 
+  def real_jobs_hash
+    {
+      "success": true,
+      "request": {
+        "time": "0",
+        "params": {
+          "owner": [
+            ""
+          ],
+          "q": [
+            ""
+          ],
+          "offset": [
+            ""
+          ],
+          "limit": [
+            ""
+          ],
+          "printerid": [
+            "c3066017-5787-d8ac-1611-cc7a3e05cff0"
+          ],
+          "sortorder": [
+            ""
+          ],
+          "status": [
+            ""
+          ]
+        },
+        "user": "donald@trump.com",
+        "users": [
+          "donald@trump.com"
+        ]
+      },
+      "xsrf_token": "AIp06DgE7d7xYChj2WA-qZtkVVEorov9fA:1465416906512",
+      "jobs": [
+        {
+          "ticketUrl": "https://www.google.com/cloudprint/ticket?format\u003dxps\u0026output\u003dxml\u0026jobid\u003d3f87deef-6d0f-85a0-5c31-268b001fc592",
+          "printerType": "GOOGLE",
+          "printerName": "Brother HL-L2360D series - #1",
+          "errorCode": "",
+          "updateTime": "1465416896913",
+          "title": "792204",
+          "message": "",
+          "ownerId": "donald@trump.com",
+          "tags": [
+            "^own"
+          ],
+          "uiState": {
+            "summary": "IN_PROGRESS"
+          },
+          "numberOfPages": 1,
+          "createTime": "1465416894322",
+          "semanticState": {
+            "delivery_attempts": 1,
+            "state": {
+              "type": "IN_PROGRESS"
+            },
+            "version": "1.0"
+          },
+          "printerid": "c3066017-5787-d8ac-1611-cc7a3e05cff0",
+          "fileUrl": "https://www.google.com/cloudprint/download?id\u003d3f87deef-6d0f-85a0-5c31-268b001fc592",
+          "id": "3f87deef-6d0f-85a0-5c31-268b001fc592",
+          "rasterUrl": "https://www.google.com/cloudprint/download?id\u003d3f87deef-6d0f-85a0-5c31-268b001fc592\u0026forcepwg\u003d1",
+          "contentType": "text/html",
+          "status": "IN_PROGRESS"
+        },
+        {
+          "ticketUrl": "https://www.google.com/cloudprint/ticket?format\u003dxps\u0026output\u003dxml\u0026jobid\u003dba4b9c8e-818a-a514-8c06-9d353e5da16c",
+          "printerType": "GOOGLE",
+          "printerName": "Brother HL-L2360D series - #1",
+          "errorCode": "",
+          "updateTime": "1465416776902",
+          "title": "791881",
+          "message": "",
+          "ownerId": "donald@trump.com",
+          "tags": [
+            "^own"
+          ],
+          "uiState": {
+            "summary": "DONE"
+          },
+          "numberOfPages": 1,
+          "createTime": "1465416745338",
+          "semanticState": {
+            "delivery_attempts": 1,
+            "state": {
+              "type": "DONE"
+            },
+            "version": "1.0"
+          },
+          "printerid": "c3066017-5787-d8ac-1611-cc7a3e05cff0",
+          "fileUrl": "https://www.google.com/cloudprint/download?id\u003dba4b9c8e-818a-a514-8c06-9d353e5da16c",
+          "id": "ba4b9c8e-818a-a514-8c06-9d353e5da16c",
+          "rasterUrl": "https://www.google.com/cloudprint/download?id\u003dba4b9c8e-818a-a514-8c06-9d353e5da16c\u0026forcepwg\u003d1",
+          "contentType": "text/html",
+          "status": "DONE"
+        },
+        {
+          "ticketUrl": "https://www.google.com/cloudprint/ticket?format\u003dxps\u0026output\u003dxml\u0026jobid\u003d00c7b2d7-97ca-7de1-5f82-11c252fbce90",
+          "printerType": "GOOGLE",
+          "printerName": "XEROX PRINTER",
+          "errorCode": "",
+          "updateTime": "1465416662337",
+          "title": "790452",
+          "message": "",
+          "ownerId": "donald@trump.com",
+          "tags": [
+            "^own"
+          ],
+          "uiState": {
+            "summary": "DONE"
+          },
+          "numberOfPages": 1,
+          "createTime": "1465416628670",
+          "semanticState": {
+            "delivery_attempts": 1,
+            "state": {
+              "type": "DONE"
+            },
+            "version": "1.0"
+          },
+          "printerid": "c3066017-5787-d8ac-1611-cc7a3e05cff0",
+          "fileUrl": "https://www.google.com/cloudprint/download?id\u003d00c7b2d7-97ca-7de1-5f82-11c252fbce90",
+          "id": "00c7b2d7-97ca-7de1-5f82-11c252fbce90",
+          "rasterUrl": "https://www.google.com/cloudprint/download?id\u003d00c7b2d7-97ca-7de1-5f82-11c252fbce90\u0026forcepwg\u003d1",
+          "contentType": "text/html",
+          "status": "DONE"
+        }
+      ],
+      "range": {
+        "jobsTotal": "101",
+        "jobsCount": 2
+      }
+    }
+  end
 end
