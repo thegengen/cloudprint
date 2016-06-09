@@ -72,8 +72,7 @@ class PrinterTest < Minitest::Test
 
     print_stuff
   end
-
-  ################
+  
   should "return an array of jobs" do
     stub_connection
     fake_connection.expects(:post).with('/jobs', {:printerid => "printer"}).returns(real_jobs_hash)
