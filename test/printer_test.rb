@@ -1,4 +1,4 @@
-require "./helper"
+require "helper"
 require "byebug"
 
 class PrinterTest < Minitest::Test
