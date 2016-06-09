@@ -1,4 +1,4 @@
-require './helper'
+require 'helper'
 
 class PrintJobTest < Minitest::Test
   def setup
