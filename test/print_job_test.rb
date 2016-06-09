@@ -1,4 +1,4 @@
-require 'helper'
+require './helper'
 
 class PrintJobTest < Minitest::Test
   def setup
@@ -10,6 +10,11 @@ class PrintJobTest < Minitest::Test
   should "find a job" do
     fake_connection.stubs(:get).with('/jobs').returns(jobs_response)
     assert @client.print_jobs.find('job_id').is_a?(CloudPrint::PrintJob)
+  end
+
+  should "find a job" do
+    fake_connection.expects(:post).with('/job', {:jobid => "aaaa"}).returns(real_job_hash)
+    assert CloudPrint::PrintJob.find_job(@client, 'aaaa').is_a?(CloudPrint::PrintJob)
   end
 
   should 'perform a remote request when finding a job' do
@@ -152,6 +157,56 @@ class PrintJobTest < Minitest::Test
           "tags" => ["^own"]
         }
       ]
+    }
+  end
+
+  def real_job_hash
+    {
+      "success" => true,
+      "request" => {
+        "time" => "0",
+        "params" => {
+          "jobid" => [
+            "aaaa"
+          ]
+        },
+        "user" => "donald@trump.com",
+        "users" => [
+          "donald@trump.com"
+        ]
+      },
+      "xsrf_token" => "AIp06DiNzjnfseYdqxujmG5P5oDpPh3N_A:1465433435813",
+      "job" => {
+        "ticketUrl" => "https://www.google.com/cloudprint/ticket?format\u003dxps\u0026output\u003dxml\u0026jobid\u003db8fa1266-625b-070c-5968-5039d2fdb982",
+        "printerType" => "GOOGLE",
+        "printerName" => "Brother HL-L2380DW series",
+        "errorCode" => "",
+        "updateTime" => "1465414297946",
+        "title" => "791947",
+        "message" => "",
+        "ownerId" => "donald@trump.com",
+        "tags" => [
+          "^own"
+        ],
+        "uiState" => {
+          "summary" => "DONE"
+        },
+        "numberOfPages" => 1,
+        "createTime" => "1465414267720",
+        "semanticState" => {
+          "delivery_attempts" => 1,
+          "state" => {
+            "type" => "DONE"
+          },
+          "version" => "1.0"
+        },
+        "printerid" => "cef403bb-d914-1a7d-f0a3-8190e1ff173a",
+        "fileUrl" => "https://www.google.com/cloudprint/download?id\u003db8fa1266-625b-070c-5968-5039d2fdb982",
+        "id" => "aaaa",
+        "rasterUrl" => "https://www.google.com/cloudprint/download?id\u003db8fa1266-625b-070c-5968-5039d2fdb982\u0026forcepwg\u003d1",
+        "contentType" => "application/pdf",
+        "status" => "DONE"
+      }
     }
   end
 end
