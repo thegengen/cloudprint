@@ -270,136 +270,136 @@ class PrinterTest < Minitest::Test
 
   def real_jobs_hash
     {
-      "success": true,
-      "request": {
-        "time": "0",
-        "params": {
-          "owner": [
+      "success" => true,
+      "request" => {
+        "time" => "0",
+        "params" => {
+          "owner" => [
             ""
           ],
-          "q": [
+          "q" => [
             ""
           ],
-          "offset": [
+          "offset" => [
             ""
           ],
-          "limit": [
+          "limit" => [
             ""
           ],
-          "printerid": [
+          "printerid" => [
             "c3066017-5787-d8ac-1611-cc7a3e05cff0"
           ],
-          "sortorder": [
+          "sortorder" => [
             ""
           ],
-          "status": [
+          "status" => [
             ""
           ]
         },
-        "user": "donald@trump.com",
-        "users": [
+        "user" => "donald@trump.com",
+        "users" => [
           "donald@trump.com"
         ]
       },
-      "xsrf_token": "AIp06DgE7d7xYChj2WA-qZtkVVEorov9fA:1465416906512",
-      "jobs": [
+      "xsrf_token" => "AIp06DgE7d7xYChj2WA-qZtkVVEorov9fA:1465416906512",
+      "jobs" => [
         {
-          "ticketUrl": "https://www.google.com/cloudprint/ticket?format\u003dxps\u0026output\u003dxml\u0026jobid\u003d3f87deef-6d0f-85a0-5c31-268b001fc592",
-          "printerType": "GOOGLE",
-          "printerName": "Brother HL-L2360D series - #1",
-          "errorCode": "",
-          "updateTime": "1465416896913",
-          "title": "792204",
-          "message": "",
-          "ownerId": "donald@trump.com",
-          "tags": [
+          "ticketUrl" => "https://www.google.com/cloudprint/ticket?format\u003dxps\u0026output\u003dxml\u0026jobid\u003d3f87deef-6d0f-85a0-5c31-268b001fc592",
+          "printerType" => "GOOGLE",
+          "printerName" => "Brother HL-L2360D series - #1",
+          "errorCode" => "",
+          "updateTime" => "1465416896913",
+          "title" => "792204",
+          "message" => "",
+          "ownerId" => "donald@trump.com",
+          "tags" => [
             "^own"
           ],
-          "uiState": {
-            "summary": "IN_PROGRESS"
+          "uiState" => {
+            "summary" => "IN_PROGRESS"
           },
-          "numberOfPages": 1,
-          "createTime": "1465416894322",
-          "semanticState": {
-            "delivery_attempts": 1,
-            "state": {
-              "type": "IN_PROGRESS"
+          "numberOfPages" => 1,
+          "createTime" => "1465416894322",
+          "semanticState" => {
+            "delivery_attempts" => 1,
+            "state" => {
+              "type" => "IN_PROGRESS"
             },
-            "version": "1.0"
+            "version" => "1.0"
           },
-          "printerid": "c3066017-5787-d8ac-1611-cc7a3e05cff0",
-          "fileUrl": "https://www.google.com/cloudprint/download?id\u003d3f87deef-6d0f-85a0-5c31-268b001fc592",
-          "id": "3f87deef-6d0f-85a0-5c31-268b001fc592",
-          "rasterUrl": "https://www.google.com/cloudprint/download?id\u003d3f87deef-6d0f-85a0-5c31-268b001fc592\u0026forcepwg\u003d1",
-          "contentType": "text/html",
-          "status": "IN_PROGRESS"
+          "printerid" => "c3066017-5787-d8ac-1611-cc7a3e05cff0",
+          "fileUrl" => "https://www.google.com/cloudprint/download?id\u003d3f87deef-6d0f-85a0-5c31-268b001fc592",
+          "id" => "3f87deef-6d0f-85a0-5c31-268b001fc592",
+          "rasterUrl" => "https://www.google.com/cloudprint/download?id\u003d3f87deef-6d0f-85a0-5c31-268b001fc592\u0026forcepwg\u003d1",
+          "contentType" => "text/html",
+          "status" => "IN_PROGRESS"
         },
         {
-          "ticketUrl": "https://www.google.com/cloudprint/ticket?format\u003dxps\u0026output\u003dxml\u0026jobid\u003dba4b9c8e-818a-a514-8c06-9d353e5da16c",
-          "printerType": "GOOGLE",
-          "printerName": "Brother HL-L2360D series - #1",
-          "errorCode": "",
-          "updateTime": "1465416776902",
-          "title": "791881",
-          "message": "",
-          "ownerId": "donald@trump.com",
-          "tags": [
+          "ticketUrl" => "https://www.google.com/cloudprint/ticket?format\u003dxps\u0026output\u003dxml\u0026jobid\u003dba4b9c8e-818a-a514-8c06-9d353e5da16c",
+          "printerType" => "GOOGLE",
+          "printerName" => "Brother HL-L2360D series - #1",
+          "errorCode" => "",
+          "updateTime" => "1465416776902",
+          "title" => "791881",
+          "message" => "",
+          "ownerId" => "donald@trump.com",
+          "tags" => [
             "^own"
           ],
-          "uiState": {
-            "summary": "DONE"
+          "uiState" => {
+            "summary" => "DONE"
           },
-          "numberOfPages": 1,
-          "createTime": "1465416745338",
-          "semanticState": {
-            "delivery_attempts": 1,
-            "state": {
-              "type": "DONE"
+          "numberOfPages" => 1,
+          "createTime" => "1465416745338",
+          "semanticState" => {
+            "delivery_attempts" => 1,
+            "state" => {
+              "type" => "DONE"
             },
-            "version": "1.0"
+            "version" => "1.0"
           },
-          "printerid": "c3066017-5787-d8ac-1611-cc7a3e05cff0",
-          "fileUrl": "https://www.google.com/cloudprint/download?id\u003dba4b9c8e-818a-a514-8c06-9d353e5da16c",
-          "id": "ba4b9c8e-818a-a514-8c06-9d353e5da16c",
-          "rasterUrl": "https://www.google.com/cloudprint/download?id\u003dba4b9c8e-818a-a514-8c06-9d353e5da16c\u0026forcepwg\u003d1",
-          "contentType": "text/html",
-          "status": "DONE"
+          "printerid" => "c3066017-5787-d8ac-1611-cc7a3e05cff0",
+          "fileUrl" => "https://www.google.com/cloudprint/download?id\u003dba4b9c8e-818a-a514-8c06-9d353e5da16c",
+          "id" => "ba4b9c8e-818a-a514-8c06-9d353e5da16c",
+          "rasterUrl" => "https://www.google.com/cloudprint/download?id\u003dba4b9c8e-818a-a514-8c06-9d353e5da16c\u0026forcepwg\u003d1",
+          "contentType" => "text/html",
+          "status" => "DONE"
         },
         {
-          "ticketUrl": "https://www.google.com/cloudprint/ticket?format\u003dxps\u0026output\u003dxml\u0026jobid\u003d00c7b2d7-97ca-7de1-5f82-11c252fbce90",
-          "printerType": "GOOGLE",
-          "printerName": "XEROX PRINTER",
-          "errorCode": "",
-          "updateTime": "1465416662337",
-          "title": "790452",
-          "message": "",
-          "ownerId": "donald@trump.com",
-          "tags": [
+          "ticketUrl" => "https://www.google.com/cloudprint/ticket?format\u003dxps\u0026output\u003dxml\u0026jobid\u003d00c7b2d7-97ca-7de1-5f82-11c252fbce90",
+          "printerType" => "GOOGLE",
+          "printerName" => "XEROX PRINTER",
+          "errorCode" => "",
+          "updateTime" => "1465416662337",
+          "title" => "790452",
+          "message" => "",
+          "ownerId" => "donald@trump.com",
+          "tags" => [
             "^own"
           ],
-          "uiState": {
-            "summary": "DONE"
+          "uiState" => {
+            "summary" => "DONE"
           },
-          "numberOfPages": 1,
-          "createTime": "1465416628670",
-          "semanticState": {
-            "delivery_attempts": 1,
-            "state": {
-              "type": "DONE"
+          "numberOfPages" => 1,
+          "createTime" => "1465416628670",
+          "semanticState" => {
+            "delivery_attempts" => 1,
+            "state" => {
+              "type" => "DONE"
             },
-            "version": "1.0"
+            "version" => "1.0"
           },
-          "printerid": "c3066017-5787-d8ac-1611-cc7a3e05cff0",
-          "fileUrl": "https://www.google.com/cloudprint/download?id\u003d00c7b2d7-97ca-7de1-5f82-11c252fbce90",
-          "id": "00c7b2d7-97ca-7de1-5f82-11c252fbce90",
-          "rasterUrl": "https://www.google.com/cloudprint/download?id\u003d00c7b2d7-97ca-7de1-5f82-11c252fbce90\u0026forcepwg\u003d1",
-          "contentType": "text/html",
-          "status": "DONE"
+          "printerid" => "c3066017-5787-d8ac-1611-cc7a3e05cff0",
+          "fileUrl" => "https://www.google.com/cloudprint/download?id\u003d00c7b2d7-97ca-7de1-5f82-11c252fbce90",
+          "id" => "00c7b2d7-97ca-7de1-5f82-11c252fbce90",
+          "rasterUrl" => "https://www.google.com/cloudprint/download?id\u003d00c7b2d7-97ca-7de1-5f82-11c252fbce90\u0026forcepwg\u003d1",
+          "contentType" => "text/html",
+          "status" => "DONE"
         }
       ],
-      "range": {
-        "jobsTotal": "101",
-        "jobsCount": 2
+      "range" => {
+        "jobsTotal" => "101",
+        "jobsCount" => 2
       }
     }
   end

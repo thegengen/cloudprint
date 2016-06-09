@@ -28,8 +28,8 @@ module CloudPrint
     def all_jobs
       method = :post
       response = client.connection.send(method, '/jobs', :printerid => self.id) || {}
-      return nil if response.nil? || response[:jobs].nil?
-      response[:jobs].map { |j| PrintJob.new_from_response(client, j)}
+      return nil if response.nil? || response['jobs'].nil?
+      response['jobs'].map { |j| PrintJob.new_from_response(client, j)}
     end
 
     def method_missing(meth, *args, &block)
