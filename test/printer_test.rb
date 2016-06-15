@@ -1,4 +1,4 @@
-require "./helper"
+require "helper"
 require "byebug"
 
 class PrinterTest < Minitest::Test
@@ -287,7 +287,7 @@ class PrinterTest < Minitest::Test
             ""
           ],
           "printerid" => [
-            "c3066017-5787-d8ac-1611-cc7a3e05cff0"
+            "c3066017-5787-d8ac-1611-cc7a3e05cff1"
           ],
           "sortorder" => [
             ""
@@ -298,7 +298,7 @@ class PrinterTest < Minitest::Test
         },
         "user" => "donald@trump.com",
         "users" => [
-          "donald@trump.com"
+          "santa@claus.com"
         ]
       },
       "xsrf_token" => "AIp06DgE7d7xYChj2WA-qZtkVVEorov9fA:1465416906512",
@@ -311,7 +311,7 @@ class PrinterTest < Minitest::Test
           "updateTime" => "1465416896913",
           "title" => "792204",
           "message" => "",
-          "ownerId" => "donald@trump.com",
+          "ownerId" => "santa@claus.com",
           "tags" => [
             "^own"
           ],
@@ -342,7 +342,7 @@ class PrinterTest < Minitest::Test
           "updateTime" => "1465416776902",
           "title" => "791881",
           "message" => "",
-          "ownerId" => "donald@trump.com",
+          "ownerId" => "santa@claus.com",
           "tags" => [
             "^own"
           ],
@@ -373,7 +373,7 @@ class PrinterTest < Minitest::Test
           "updateTime" => "1465416662337",
           "title" => "790452",
           "message" => "",
-          "ownerId" => "donald@trump.com",
+          "ownerId" => "santa@claus.com",
           "tags" => [
             "^own"
           ],
