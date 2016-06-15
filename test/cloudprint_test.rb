@@ -1,4 +1,4 @@
-require './helper'
+require 'helper'
 
 class CloudPrintTest < Minitest::Test
   def setup
