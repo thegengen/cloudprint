@@ -15,13 +15,6 @@ module CloudPrint
       @data = data
     end
 
-    def self.find_job(client, job_id)
-      method = :post
-      response = client.connection.send(method, '/job', :jobid => job_id) || {}
-      return nil if response.nil? || response["job"].nil?
-      client.print_jobs.new_from_response response["job"]
-    end
-
     def refresh!
       @data = Util.normalize_response_data(client.print_jobs.find_by_id(id))
       self

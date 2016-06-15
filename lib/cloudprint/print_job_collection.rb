@@ -2,11 +2,11 @@ module CloudPrint
   class PrintJobCollection
 
     attr_accessor :client
-    
+
     def initialize client
       @client = client
     end
-    
+
     def find(jobid)
       job = find_by_id(jobid)
       return nil if job.nil?
@@ -26,7 +26,9 @@ module CloudPrint
     end
 
     def find_by_id(id)
-      fetch_jobs.select{ |job| job['id'] == id }.first
+      response = client.connection.post('/job', :jobid => id) || {}
+      return nil if response.nil? || response["job"].nil?
+      response["job"]
     end
 
     private
