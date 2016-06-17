@@ -1,4 +1,4 @@
-## Cloudprint [![Build Status](https://travis-ci.org/minciue/cloudprint.png?branch=master)](https://travis-ci.org/minciue/cloudprint)
+## Cloudprint [![Build Status](https://travis-ci.org/thegengen/cloudprint.svg?branch=master)](https://travis-ci.org/thegengen/cloudprint)
 
 Cloudprint is a Ruby library for interacting with Google's Cloud Print service,
 a technology that allows you to print over the web from anywhere to any
