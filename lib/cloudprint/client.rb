@@ -14,9 +14,14 @@ module CloudPrint
       @client_id = options[:client_id]
       @client_secret = options[:client_secret]
       @callback_url = options[:callback_url]
+      @access_type = options[:access_type]
       @connection = Connection.new(self)
       @printers = PrinterCollection.new(self)
       @print_jobs = PrintJobCollection.new(self)
+    end
+
+    def auth
+      @auth ||= CloudPrint::Auth.new(self, access_type: @access_type)
     end
 
     def access_token
@@ -32,18 +37,21 @@ module CloudPrint
       @access_token.is_a?(OAuth2::AccessToken) && !@access_token.token.to_s.strip.empty? && !@access_token.expired?
     end
 
+    def oauth_client
+      @oauth_client ||= OAuth2::Client.new(
+        client_id, client_secret,
+        :authorize_url => "/o/oauth2/auth",
+        :token_url => "/o/oauth2/token",
+        :access_token_url => "/o/oauth2/token",
+        :site => 'https://accounts.google.com/'
+      )
+    end
+
     private
 
     def renew_access_token!
       @access_token = OAuth2::AccessToken.new(oauth_client, "", :refresh_token => refresh_token).refresh!
     end
 
-    def oauth_client
-      @oauth_client ||= OAuth2::Client.new(client_id, client_secret,
-        :authorize_url => "/o/oauth2/auth",
-        :token_url => "/o/oauth2/token",
-        :access_token_url => "/o/oauth2/token",
-        :site => 'https://accounts.google.com/')
-    end
   end
 end

@@ -87,7 +87,6 @@ class PrinterTest < Minitest::Test
     assert_nil job
   end
 
-
   should "print file" do
     fake_connection.expects(:multipart_post).with('/submit', connection_print_file_params).returns(empty_job)
     stub_connection
