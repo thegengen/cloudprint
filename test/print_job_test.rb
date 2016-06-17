@@ -7,24 +7,23 @@ class PrintJobTest < Minitest::Test
     stub_connection
   end
 
-  should "find a job" do
-    fake_connection.stubs(:get).with('/jobs').returns(jobs_response)
+  should 'find a job' do
+    fake_connection.expects(:post).with('/job', {:jobid => "job_id"}).returns(real_job_hash)
     assert @client.print_jobs.find('job_id').is_a?(CloudPrint::PrintJob)
   end
 
   should 'perform a remote request when finding a job' do
-    fake_connection.expects(:get).with('/jobs').returns({})
-
+    fake_connection.expects(:post).with('/job', {:jobid => "job_id"}).returns(real_job_hash)
     @client.print_jobs.find('job_id')
   end
 
   should 'gets the job details' do
-    fake_connection.stubs(:get).with('/jobs').returns(jobs_response)
+    fake_connection.expects(:post).with('/job', {:jobid => "job_id"}).returns(real_job_hash)
     job = @client.print_jobs.find('job_id')
 
     assert_equal 'job_id', job.id
-    assert_equal 'status', job.status
-    assert_equal 'Error', job.error_code
+    assert_equal 'mocked_status', job.status
+    assert_equal '', job.error_code
     assert_equal 'printer_id', job.printer_id
     assert_equal 'Job Title', job.title
     assert_equal 'image/jpeg', job.content_type
@@ -152,6 +151,56 @@ class PrintJobTest < Minitest::Test
           "tags" => ["^own"]
         }
       ]
+    }
+  end
+
+  def real_job_hash
+    {
+      "success" => true,
+      "request" => {
+        "time" => "0",
+        "params" => {
+          "jobid" => [
+            "job_id"
+          ]
+        },
+        "user" => "santa@claus.com",
+        "users" => [
+          "santa@claus.com"
+        ]
+      },
+      "xsrf_token" => "AIp06DiNzjnfseYdqxujmG5P5oDpPh3N_A:1465433435813",
+      "job" => {
+        "ticketUrl" => "https://www.google.com/cloudprint/ticket?jobid=job_id",
+        "printerType" => "GOOGLE",
+        "printerName" => "Brother HL-L2380DW series",
+        "errorCode" => "",
+        "updateTime" => "1349722237676",
+        "title" => "Job Title",
+        "message" => "A message.",
+        "ownerId" => "santa@claus.com",
+        "tags" => [
+          "^own"
+        ],
+        "uiState" => {
+          "summary" => "DONE"
+        },
+        "numberOfPages" => 1,
+        "createTime" => "1349722237676",
+        "semanticState" => {
+          "delivery_attempts" => 1,
+          "state" => {
+            "type" => "DONE"
+          },
+          "version" => "1.0"
+        },
+        "printerid" => "printer_id",
+        "fileUrl" => "https://www.google.com/cloudprint/download?id=job_id",
+        "id" => "job_id",
+        "rasterUrl" => "https://www.google.com/cloudprint/download?id\u003db8fa1266-625b-070c-5968-5039d2fdb982\u0026forcepwg\u003d1",
+        "contentType" => "image/jpeg",
+        "status" => "mocked_status"
+      }
     }
   end
 end
