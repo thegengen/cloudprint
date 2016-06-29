@@ -29,6 +29,12 @@ class Minitest::Test
     mock
   end
 
+  def mock_refresh_token
+    mock = mock("refresh_token")
+    mock.stubs(refresh_token: "random_refresh_token")
+    mock
+  end
+
   def stub_http
     mock = mock_http()
     Net::HTTP.stubs(:new).returns(mock)
