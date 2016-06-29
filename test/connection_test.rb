@@ -1,4 +1,4 @@
-require "helper"
+require 'helper'
 
 class ConnectionTest < Minitest::Test
   def setup

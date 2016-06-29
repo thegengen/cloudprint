@@ -1,5 +1,4 @@
-require "helper"
-require "byebug"
+require 'helper'
 
 class PrinterTest < Minitest::Test
   def setup
@@ -72,7 +71,7 @@ class PrinterTest < Minitest::Test
 
     print_stuff
   end
-  
+
   should "return an array of jobs" do
     stub_connection
     fake_connection.expects(:post).with('/jobs', {:printerid => "printer"}).returns(real_jobs_hash)
@@ -98,7 +97,6 @@ class PrinterTest < Minitest::Test
 
     assert_nil job
   end
-
 
   should "print file" do
     fake_connection.expects(:multipart_post).with('/submit', connection_print_file_params).returns(empty_job)
