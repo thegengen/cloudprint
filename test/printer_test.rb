@@ -293,7 +293,7 @@ class PrinterTest < Minitest::Test
             ""
           ]
         },
-        "user" => "donald@trump.com",
+        "user" => "santa@claus.com",
         "users" => [
           "santa@claus.com"
         ]
