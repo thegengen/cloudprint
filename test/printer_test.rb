@@ -77,10 +77,15 @@ class PrinterTest < Minitest::Test
     fake_connection.expects(:post).with('/jobs', {:printerid => "printer"}).returns(real_jobs_hash)
 
     print_job_array = get_all_jobs
-    assert print_job_array.is_a?(Array)
-    assert print_job_array.map(&:class).uniq.length.equal?(1)
-    assert print_job_array.map(&:class).uniq.first.equal?(CloudPrint::PrintJob)
-    assert print_job_array.length.equal?(3)
+
+    assert_equal(
+      [true, true, true, true],
+      [print_job_array.is_a?(Array),
+       print_job_array.map(&:class).uniq.length.equal?(1),
+       print_job_array.map(&:class).uniq.first.equal?(CloudPrint::PrintJob),
+       print_job_array.length.equal?(3)
+      ]
+    )
   end
 
   should "return a job" do
