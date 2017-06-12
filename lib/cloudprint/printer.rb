@@ -20,7 +20,14 @@ module CloudPrint
     def print(options)
       content = options[:content]
       method = content.is_a?(IO) || content.is_a?(StringIO) || content.is_a?(Tempfile) ? :multipart_post : :post
-      response = client.connection.send(method, '/submit', :printerid => self.id, :title => options[:title], :content => options[:content], :ticket => options[:ticket].to_json, :contentType => options[:content_type]) || {}
+      params = {
+        printerid: self.id,
+        title: options[:title],
+        content: options[:content],
+        contentType: options[:content_type]
+      }
+      params[:ticket] = options[:ticket].to_json if options[:ticket] && options[:ticket] != ''
+      response = client.connection.send(method, '/submit', params) || {}
       return nil if response.nil? || response["job"].nil?
       client.print_jobs.new_from_response response["job"]
     end
