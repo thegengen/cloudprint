@@ -32,6 +32,12 @@ module CloudPrint
       client.print_jobs.new_from_response response["job"]
     end
 
+    def all_jobs
+      response = client.connection.post('/jobs', :printerid => self.id)
+      return [] if response['jobs'].nil?
+      response['jobs'].map { |j| PrintJob.new_from_response(client, j)}
+    end
+
     def method_missing(meth, *args, &block)
       if CONNECTION_STATUSES.map{ |s| s.downcase + '?' }.include?(meth.to_s)
         connection_status.downcase == meth.to_s.chop
