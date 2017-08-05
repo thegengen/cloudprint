@@ -79,12 +79,17 @@ class PrinterTest < Minitest::Test
     assert job.is_a?(CloudPrint::PrintJob)
   end
 
-  should "return nil when the response doesn't have job in it" do
+  should "raise an exception when the response doesn't have job in it" do
+    message = 'Random CloudPrint Error'
     stub_connection
-    fake_connection.stubs(:post).with('/submit', connection_print_params).returns({})
-    job = print_stuff
+    fake_connection
+      .stubs(:post)
+      .with('/submit', connection_print_params)
+      .returns('message' => message)
 
-    assert_nil job
+    assert_raises CloudPrint::PrintError, message do
+      print_stuff
+    end
   end
 
   should "print file" do

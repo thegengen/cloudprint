@@ -19,16 +19,19 @@ module CloudPrint
 
     def print(options)
       content = options[:content]
-      method = content.is_a?(IO) || content.is_a?(StringIO) || content.is_a?(Tempfile) ? :multipart_post : :post
+      method = is_multipart?(content) ? :multipart_post : :post
       params = {
-        printerid: self.id,
+        printerid: id,
         title: options[:title],
-        content: options[:content],
+        content: content,
         contentType: options[:content_type]
       }
       params[:ticket] = options[:ticket].to_json if options[:ticket] && options[:ticket] != ''
-      response = client.connection.send(method, '/submit', params) || {}
-      return nil if response.nil? || response["job"].nil?
+      response = client.connection.send(method, '/submit', params)
+
+      raise PrintError, unknown_erorr_message if response.nil?
+      raise PrintError, response["message"] || unknown_erorr_message if response["job"].nil?
+
       client.print_jobs.new_from_response response["job"]
     end
 
@@ -38,6 +41,17 @@ module CloudPrint
       else
         super
       end
+    end
+
+    private
+
+    def is_multipart?(content)
+      content.is_a?(IO) || content.is_a?(StringIO) || content.is_a?(Tempfile)
+    end
+
+    def unknown_erorr_message
+      'An unknown print error has occurred. '\
+      'Please check Google CloudPrint for errors.'
     end
   end
 end

@@ -9,7 +9,7 @@ To start using cloudprint, you first need to add it to your Gemfile, with an ent
 gem 'cloudprint'
 ```
 
-Afterwards, run `bundle install` 
+Afterwards, run `bundle install`
 
 Next, you'll need to authenticate your users with Google Cloud Print. Cloud Print uses OAuth2 as an authentication mechanism.
 
@@ -48,13 +48,13 @@ Printing with the cloudprint gem is done with two kinds of objects. `CloudPrint:
 
 ```ruby
 # Get a list of all the printers this client can talk to.
-printers = client.printers.all                      
+printers = client.printers.all
 
 # Get a printer with a specific id
 my_printer = client.printers.find('printer_id')
 
 # Print using this printer.
-# The :content option can also take a File object as a parameter. 
+# The :content option can also take a File object as a parameter.
 # CloudPrint accepts HTML and PDF files.
 my_printer.print(content: "<h1>Hello World</h1>", content_type: "text/html")
 ```
@@ -69,7 +69,7 @@ If your application can simply wait for the job, you can call refresh! on your p
 my_job = client.print_jobs.find('job_id')
 
 # Returns the status, one of QUEUED, IN_PROGRESS, DONE, ERROR, SUBMITTED
-my_job.status 
+my_job.status
 ```
 
 You can also delete a job, after it has finished.
@@ -77,6 +77,11 @@ You can also delete a job, after it has finished.
 ```ruby
 my_job.delete!
 ```
+
+## Failing Jobs
+If your printer fails to print for some reason, a CloudPrint::PrintError exception will be raised.
+This is a breaking change that was introduced in version 0.4.0; it is up to you to rescue this exception
+and do something sensible.
 
 ## Testing
 For your testing needs, cloudprint objects can be stubbed at will and initializing them does not require a connection. For example, to stub a print() call with the shoulda library, one would do this:
