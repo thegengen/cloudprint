@@ -1,5 +1,8 @@
 # Cloudprint Change Log
 
+## [0.4.0] - 2017-08-05
+### Breaking Changes
+- `Printer#print` will now raise `CloudPrint::PrinterError` when it fails to receive a print job from GCP.
 ## [0.3.1] - 2016-03-10
 ### Fixes
 - Fix search_all delegating to an invalid query.
