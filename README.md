@@ -78,6 +78,42 @@ You can also delete a job, after it has finished.
 my_job.delete!
 ```
 
+## Example Print Parameters
+While sending the print option to google coudprint we need to set some custom parameters an exmaple of all the parameters below:
+
+```ruby
+my_printer.print(
+  content: "<h1>Hello World</h1>", 
+  content_type: "text/html", 
+  title: 'Example Title', 
+  ticket: {
+    version: "1.0",
+    print: {
+      vendor_ticket_item:
+        [
+          { id: "psk:PageMediaType", value: "psk:Plain" },
+          { id: "force-pwg-raster", value: "false" }
+        ],
+      color:{ vendor_id: "", type: 1 },
+      duplex:{ type: 0 },
+      page_orientation: { type: 2 },
+      copies: { copies: 1 },
+      dpi: { horizontal_dpi: 300,vertical_dpi: 300, vendor_id: "" },
+      fit_to_page: { type: 3 },
+      media_size: { width_microns: 210000, height_microns: 297000, is_continuous_feed: false, vendor_id: "2" },
+      collate: { collate: false },
+      reverse_order: { reverse_order: false }
+    }
+  }
+)
+```
+Note that for using pdf your need to set 
+
+```ruby
+  content: open(file_path, r),
+  content_type: 'application/pdf'
+```
+
 ## Testing
 For your testing needs, cloudprint objects can be stubbed at will and initializing them does not require a connection. For example, to stub a print() call with the shoulda library, one would do this:
 
