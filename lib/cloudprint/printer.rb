@@ -26,6 +26,7 @@ module CloudPrint
         content: options[:content],
         contentType: options[:content_type]
       }
+      params[:contentTransferEncoding] = options[:content_transfer_encoding] if options[:content_transfer_encoding]  && options[:content_transfer_encoding] != ''
       params[:ticket] = options[:ticket].to_json if options[:ticket] && options[:ticket] != ''
       response = client.connection.send(method, '/submit', params) || {}
       return nil if response.nil? || response["job"].nil?
