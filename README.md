@@ -1,5 +1,10 @@
 # Cloudprint [![Build Status](https://travis-ci.org/thegengen/cloudprint.svg?branch=master)](https://travis-ci.org/thegengen/cloudprint)
 
+# This project is no longer maintained
+Google has announced that CloudPrint will be discontinued as of December 31, 2020. See their [support article](https://support.google.com/chrome/a/answer/9633006) for their recommended migration paths.
+
+---
+
 Cloudprint is a Ruby library for interacting with Google's Cloud Print service, a technology that allows you to print over the web from anywhere to any printer.
 
 ## Setting things up.
