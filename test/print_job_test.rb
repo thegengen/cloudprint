@@ -21,12 +21,19 @@ class PrintJobTest < Minitest::Test
     fake_connection.expects(:post).with('/job', {:jobid => "job_id"}).returns(real_job_hash)
     job = @client.print_jobs.find('job_id')
 
+    job_uistate = {
+      "summary" => "ERROR",
+      "progress" => "Pages printed: 0 of 1",
+      "cause" => "Input tray problem"
+    }
+
     assert_equal 'job_id', job.id
     assert_equal 'mocked_status', job.status
     assert_equal '', job.error_code
     assert_equal 'printer_id', job.printer_id
     assert_equal 'Job Title', job.title
     assert_equal 'image/jpeg', job.content_type
+    assert_equal job_uistate, job.ui_state
     assert_equal 'https://www.google.com/cloudprint/download?id=job_id', job.file_url
     assert_equal 'https://www.google.com/cloudprint/ticket?jobid=job_id', job.ticket_url
     assert_equal Time.at(1349722237.676), job.create_time
@@ -108,6 +115,19 @@ class PrintJobTest < Minitest::Test
     assert jobs[1].id == 'job_id'
   end
 
+  should "correctly parse UI State" do
+    fake_connection.stubs(:get).with('/jobs').returns(jobs_response)
+    jobs = @client.print_jobs.all
+
+    job_ui_state = {
+      "summary" => "ui_state_summary",
+      "progress" => "ui_state_progress",
+      "cause" => "ui_state_cause"
+    }
+
+    assert_equal jobs[1].ui_state, job_ui_state
+  end
+
   context '#delete!' do
     should "return true on success" do
       fake_connection.stubs(:get).with('/deletejob', { :jobid => 'job_id' }).returns({ 'success' => true })
@@ -143,6 +163,11 @@ class PrintJobTest < Minitest::Test
           "printerid" => "printer_id",
           "title" => "Job Title",
           "contentType" => "image/jpeg",
+          "uiState" => {
+            "summary" => "ui_state_summary",
+            "progress" => "ui_state_progress",
+            "cause" => "ui_state_cause"
+          },
           "fileUrl" => "https://www.google.com/cloudprint/download?id=job_id",
           "ticketUrl" => "https://www.google.com/cloudprint/ticket?jobid=job_id",
           "createTime" => "1349722237676",
@@ -183,7 +208,9 @@ class PrintJobTest < Minitest::Test
           "^own"
         ],
         "uiState" => {
-          "summary" => "DONE"
+          "summary" => "ERROR",
+          "progress" => "Pages printed: 0 of 1",
+          "cause" => "Input tray problem"
         },
         "numberOfPages" => 1,
         "createTime" => "1349722237676",

@@ -37,10 +37,12 @@ module CloudPrint
 
     module Util
       def self.normalize_response_data(response_hash)
+        puts response_hash['uiState']
         {
           :id => response_hash['id'],
           :status => response_hash['status'],
           :error_code => response_hash['errorCode'],
+          :ui_state => response_hash['uiState'],
           :printer_id => response_hash['printerid'],
           :title => response_hash['title'],
           :content_type => response_hash['contentType'],

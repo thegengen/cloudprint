@@ -1,5 +1,9 @@
 # Cloudprint Change Log
 
+## [0.3.2] - 2017-11-13
+### Fixes
+- Fix add uiState to print job to show errors.
+
 ## [0.3.1] - 2016-03-10
 ### Fixes
 - Fix search_all delegating to an invalid query.
